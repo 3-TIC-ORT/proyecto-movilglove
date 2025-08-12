@@ -17,15 +17,28 @@ h1 {
   h3 {
       font-size: 25px;
       text-decoration: underline;
+      color: white;
   }
 h4 {
     font-size: 20 px;
-    background-color: #ff0000;
-    
+font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 h2 {
     font-size: 35px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     text-decoration: underline;
+    color: white;
+}
+
+body {
+  background-image:url(https://media.istockphoto.com/id/1370110270/es/vector/cielo-estrellado-nocturno-fondo-espacial-oscuro-con-estrellas.jpg?s=612x612&w=0&k=20&c=MmTdL6oocjxHbDBYPilefJ67RkX1vRryvF4xsOp7Sm0=)
+}
+
+div {
+  background-color: red;
+}
+
+img {
+  
 }
