@@ -1,6 +1,7 @@
 ¡Bienvenido a la parte de hardware de MobileGlove!
 
 Encargados:
+-Lenny Limonoff
 - Máximo Perona
 . Thiago Binder
 
