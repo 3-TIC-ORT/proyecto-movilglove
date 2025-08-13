@@ -16,7 +16,19 @@ color:#afaaaa;
     color: white;
 }
 
+image {
+position: absolute;
+width: 1241px;
+height: 827px;
+left: 792px;
+top: 195px;
+background: url(auto.png)
+}
 
+#fondo {
+
+    
+}
 
 
 
