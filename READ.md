@@ -5,6 +5,8 @@ Encargados:
 - Máximo Perona
 . Thiago Binder
 
+node serialport
+
 En este branch publicaremos avances y links que muestren nuestro trabajo
 para que MobileGlove sea la joya que merece ser. :) 
 

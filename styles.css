@@ -1,7 +1,20 @@
-#iniciar {
-    background-color: aqua;
+.campo{
+    .campo {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      input {
+        padding: 5px;
+      }
+      button.ojo {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+      }
 }
 
-#resgistrarse{
-    background-color: aqua;
+#usuario{
+    padding: 5px;   
 }
