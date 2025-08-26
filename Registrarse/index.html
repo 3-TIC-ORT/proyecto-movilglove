@@ -2,10 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <title>Document</title>
 </head>
 <body>
-    
+
+  <h1>Registrate</h1>
+    <input id="usuario"type="text" placeholder="Usuario">
+    <div class="campo">
+        <input id="contrasena" type="password" placeholder="Contraseña">
+        <button type="button" class="ojo" onclick="togglePassword()">
+          <i id="iconoOjo" class="fa-solid fa-eye"></i>
+        </button>
+      </div>
+      <script src="script.js"></script>
+
+      <div>
+        <button id="registro">Registrate</button>
+      </div>
 </body>
 </html>
