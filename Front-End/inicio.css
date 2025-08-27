@@ -26,14 +26,64 @@
   }
   
   
-  #usuario {
-    width: 250px;
-    height: 30px;
-    padding: 5px 10px;
-    margin-bottom: 10px;
-    box-sizing: border-box;
-    
-  }
+
+#usuario {
+
+position: absolute;
+width: 664px;
+height: 87px;
+left: 606px;
+top: 346px;
+
+background: #D9D9D9;
+border: 3px solid #565555;
+border-radius: 5px;
+
+position: absolute;
+width: 300px;
+height: 32px;
+left: 643px;
+top: 378px;
+
+font-family: '';
+font-style: normal;
+font-weight: 400;
+font-size: 17px;
+line-height: 35px;
+
+color: #5E5E5E;
+
+}
+
+#contraseña {
+ 
+position: absolute;
+width: 664px;
+height: 100px;
+left: 643px;
+top: 346px;
+  
+background: #D9D9D9;
+border: 3px solid #565555;
+border-radius: 5px;
+  
+position: absolute;
+width: 300px;
+height: 32px;
+left: 643px;
+top: 378px;
+  
+font-family: '';
+font-style: normal;
+font-weight: 400;
+font-size: 17px;
+line-height: 35px;
+  
+color: #5E5E5E;
+
+
+}
+
   
   
 
