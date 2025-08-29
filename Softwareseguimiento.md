@@ -1,6 +1,6 @@
 Lenny Limonoff
 crl+ñ
-
+import fs from "fs";
 Dia 1:
 Programe los inputs 
 Programe los botones de inicio de sesion y registrarse
