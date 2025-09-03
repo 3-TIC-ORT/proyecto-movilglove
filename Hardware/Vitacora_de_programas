@@ -1,0 +1,113 @@
+Hicimos un codigo para mover dos motores a la vez, 
+unicamente como prueba para controlar un puente h(funciona):
+
+#define ENA 9
+#define ENB 10
+#define IN1 3
+#define IN2 4
+#define IN3 5
+#define IN4 6
+
+
+int velocidad = 200;
+void setup() {
+ 
+  pinMode(IN1,OUTPUT);  pinMode(IN2,OUTPUT);  pinMode(ENA,OUTPUT);
+  pinMode(IN3,OUTPUT);  pinMode(IN4,OUTPUT);  pinMode(ENB,OUTPUT);
+
+
+}
+
+
+void loop() {
+  // put your main code here, to run repeatedly:
+digitalWrite(IN1, HIGH);
+digitalWrite(IN2, LOW);
+digitalWrite(IN3, HIGH);
+digitalWrite(IN4, LOW);
+digitalWrite(ENA, velocidad);
+digitalWrite(ENB, velocidad);
+delay(3000);
+digitalWrite(IN2, HIGH);
+digitalWrite(IN1, LOW);
+digitalWrite(IN4, HIGH);
+digitalWrite(IN3, LOW);
+digitalWrite(ENA, velocidad);
+digitalWrite(ENB, velocidad);
+delay(3000);
+}
+
+Hicimos un codigo para mover esos mismos motores pero basados en un input del usuario temporal, una serie
+de botones. La idea es hacer la estructura de los condicionales, luego estas instrucciones haremos que 
+lleguen de una computadora por el puerto serial (aun no funciona):
+Codigo para controlar los motores con botones (no funciona aun):
+
+int velocidad = 200;
+int boton1 = 0;
+int boton2 = 0;
+int boton3 = 0;
+int boton4 = 0;
+#define ENA 9;
+#define ENB 10;
+#define IN1 3;
+#define IN2 4;
+#define IN3 5;
+#define IN4 6;
+
+
+void setup() {
+ Serial.begin(9600);
+ pinMode(8, INPUT);
+ pinMode(11,INPUT);
+ pinMode(12,INPUT);
+ pinMode(13,INPUT);
+ pinMode(3, OUTPUT); 
+ pinMode(4,OUTPUT); 
+ pinMode(9,OUTPUT);
+ pinMode(5,OUTPUT); 
+ pinMode(6,OUTPUT); 
+ pinMode(10,OUTPUT);
+
+
+
+
+}
+
+
+
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  boton1 = digitalRead(8);
+  boton2 = digitalRead(11);
+  boton3 = digitalRead(12);
+  boton4 = digitalRead(13);
+  
+  if (boton1 == 1){
+   digitalWrite (3,HIGH);
+   digitalWrite (4,LOW);
+   Serial.println ("motor 1 contra-reloj");
+  }
+  
+  if (boton2 == 1){
+   digitalWrite(4, HIGH);
+   digitalWrite(3,LOW);
+   Serial.println ("motor 1 reloj");
+  }
+  
+  if (boton3 == 1){
+   digitalWrite (5,HIGH);
+   digitalWrite (6,LOW);
+   Serial.println ("motor 2 contra-reloj");
+  }
+  
+  if (boton4 == 1){
+   digitalWrite(6, HIGH);
+   digitalWrite (5,LOW);
+   Serial.println ("motor 2 reloj");
+  }
+  
+  
+  delay(100);
+}
+
