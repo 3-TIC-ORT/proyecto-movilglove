@@ -22,6 +22,9 @@ const usuarios = [
 
 console.log(iniciodesesion("juan123", "1234"));
 
+function esribir (){
+  
+}
 
 function registrate(usuario,contraseña){
 
