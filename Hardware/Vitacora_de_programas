@@ -39,28 +39,30 @@ delay(3000);
 
 Hicimos un codigo para mover esos mismos motores pero basados en un input del usuario temporal, una serie
 de botones. La idea es hacer la estructura de los condicionales, luego estas instrucciones haremos que 
-lleguen de una computadora por el puerto serial (aun no funciona):
-Codigo para controlar los motores con botones (no funciona aun):
+lleguen de una computadora por el puerto serial (probar si funciona en un modelo L293N):
 
 int velocidad = 200;
 int boton1 = 0;
 int boton2 = 0;
 int boton3 = 0;
 int boton4 = 0;
-#define ENA 9;
-#define ENB 10;
-#define IN1 3;
-#define IN2 4;
-#define IN3 5;
-#define IN4 6;
+#define ENA 9
+#define ENB 10
+#define IN1 3
+#define IN2 4
+#define IN3 5
+#define IN4 6
 
 
 void setup() {
  Serial.begin(9600);
- pinMode(8, INPUT);
- pinMode(11,INPUT);
- pinMode(12,INPUT);
- pinMode(13,INPUT);
+ //Esto está puesto con pullup para aumentar la fiabilidad de la lectura, 
+//pero hace que la logica se invierte(cuando esta presionado es 0 pero cuando no lo esta es 1) *CUIDADO*
+ pinMode(8, INPUT_PULLUP); 
+ pinMode(11,INPUT_PULLUP); 
+ pinMode(12,INPUT_PULLUP); 
+ pinMode(13,INPUT_PULLUP); 
+ //en cambio, la logica de esto es *normal*
  pinMode(3, OUTPUT); 
  pinMode(4,OUTPUT); 
  pinMode(9,OUTPUT);
@@ -83,28 +85,39 @@ void loop() {
   boton3 = digitalRead(12);
   boton4 = digitalRead(13);
   
-  if (boton1 == 1){
-   digitalWrite (3,HIGH);
-   digitalWrite (4,LOW);
+  if (boton1 == 0){
+   analogWrite(9, velocidad);
+   digitalWrite (IN1,HIGH);
+   digitalWrite (IN2,LOW);
    Serial.println ("motor 1 contra-reloj");
   }
   
-  if (boton2 == 1){
-   digitalWrite(4, HIGH);
-   digitalWrite(3,LOW);
+  if (boton2 == 0){
+   analogWrite(9, velocidad);
+   digitalWrite(IN2, HIGH);
+   digitalWrite(IN1, LOW);
    Serial.println ("motor 1 reloj");
   }
   
-  if (boton3 == 1){
-   digitalWrite (5,HIGH);
-   digitalWrite (6,LOW);
+  if (boton3 == 0){
+   analogWrite(10, velocidad);
+   digitalWrite (IN3,HIGH);
+   digitalWrite (IN4,LOW);
    Serial.println ("motor 2 contra-reloj");
   }
   
-  if (boton4 == 1){
-   digitalWrite(6, HIGH);
-   digitalWrite (5,LOW);
+  if (boton4 == 0){
+   analogWrite(10, velocidad);
+   digitalWrite(IN4, HIGH);
+   digitalWrite (IN3,LOW);
    Serial.println ("motor 2 reloj");
+  } else {
+    digitalWrite(3,LOW);
+    digitalWrite(4,LOW);
+    digitalWrite(5,LOW);
+    digitalWrite(6,LOW);
+    digitalWrite(9,LOW);
+    digitalWrite(10,LOW);
   }
   
   
