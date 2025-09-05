@@ -92,26 +92,27 @@ void loop() {
    Serial.println ("motor 1 contra-reloj");
   }
   
-  if (boton2 == 0){
+  else if (boton2 == 0){
    analogWrite(9, velocidad);
    digitalWrite(IN2, HIGH);
    digitalWrite(IN1, LOW);
    Serial.println ("motor 1 reloj");
   }
   
-  if (boton3 == 0){
+  else if (boton3 == 0){
    analogWrite(10, velocidad);
    digitalWrite (IN3,HIGH);
    digitalWrite (IN4,LOW);
    Serial.println ("motor 2 contra-reloj");
   }
   
-  if (boton4 == 0){
+  else if (boton4 == 0){
    analogWrite(10, velocidad);
    digitalWrite(IN4, HIGH);
    digitalWrite (IN3,LOW);
    Serial.println ("motor 2 reloj");
-  } else {
+  } 
+  else {
     digitalWrite(3,LOW);
     digitalWrite(4,LOW);
     digitalWrite(5,LOW);
