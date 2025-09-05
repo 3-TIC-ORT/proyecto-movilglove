@@ -25,7 +25,7 @@ console.log(iniciodesesion("juan123", "1234"));
 
 const fs = require("fs");
 
-function registrate(usuario, contraseña) {
+function regsitrarse(usuario, contraseña) {
  
   if (!fs.existsSync("usuarios.json")) {
     fs.writeFileSync("usuarios.json", "[]", "utf-8");
