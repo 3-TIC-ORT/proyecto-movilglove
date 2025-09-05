@@ -7,7 +7,7 @@ const usuarios = [
 { nombreUsuario: "juan123", contraseña: "1234" },
  { nombreUsuario: "maria22", contraseña: "abcd" }
       ];
-    const user = usuarios.find(u => u.nombreUsuario === nombreUsuario);
+    const user = conectar.usuario
     
       if (!user) {
         return "El nombre de usuario no existe";
@@ -22,11 +22,38 @@ const usuarios = [
 
 console.log(iniciodesesion("juan123", "1234"));
 
-function esribir (){
-  
+
+const fs = require("fs");
+
+function regsitrarse(usuario, contraseña) {
+ 
+  if (!fs.existsSync("usuarios.json")) {
+    fs.writeFileSync("usuarios.json", "[]", "utf-8");
+  }
+
+  let datos = fs.readFileSync("usuarios.json", "utf-8");
+  let usuarios = JSON.parse(datos);
+
+  let existeUsuario = usuarios.find(u => u.nombre === usuario);
+  if (existeUsuario && existeUsuario.password === contraseña) {
+    console.log("⚠️ Ese usuario con esa contraseña ya está registrado.");
+    return;
+  }
+  if (existeUsuario) {
+    console.log("⚠️ El nombre de usuario ya existe, elegí otro.");
+    return;
+  }
+
+  let nuevoUsuario = {
+    nombre: usuario,
+    password: contraseña
+  };
+
+  usuarios.push(nuevoUsuario);
+
+  fs.writeFileSync("usuarios.json", JSON.stringify(usuarios, null, 2), "utf-8");
+
+  console.log("✅ Usuario registrado con éxito!");
 }
 
-function registrate(usuario,contraseña){
-
-}
 

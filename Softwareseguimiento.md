@@ -1,6 +1,9 @@
 Lenny Limonoff
 crl+ñ
 import fs from "fs";
+leer agregar guardar
+npm init -y
+
 Dia 1:
 Programe los inputs 
 Programe los botones de inicio de sesion y registrarse
