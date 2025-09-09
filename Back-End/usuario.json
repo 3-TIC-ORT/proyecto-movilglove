@@ -1,4 +1,5 @@
-{
-    "pepito":"pepitocrack123",
-    "juan": "juancapo456"
-}
+[
+    { "usuario": "Shulian", "contraseña": "Shuli123" },
+    { "usuario": "Lenny", "contraseña": "river912" }
+  ]
+  

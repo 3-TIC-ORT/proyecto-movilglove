@@ -1,59 +1,43 @@
 import fs from "fs";
 
-let conectar = JSON.parse(fs.readFileSync("usuario.json", "utf-8"));
+function iniciodesesion(usuario, contraseña) {
+  
+  let conectar = JSON.parse(fs.readFileSync("usuario.json", "utf-8"));
 
-function iniciodesesion(usuario,contraseña){
-const usuarios = [
-{ nombreUsuario: "juan123", contraseña: "1234" },
- { nombreUsuario: "maria22", contraseña: "abcd" }
-      ];
-    const user = conectar.usuario
-    
-      if (!user) {
-        return "El nombre de usuario no existe";
-      }
-    
-      if (user.contraseña === contraseña) {
-        return "Inicio de sesión bien ";
-      } else {
-        return "Contraseña incorrecta ";
-      }
+  const user = conectar.find(u => u.usuario === usuario);
+
+  if (!user) {
+    return "El nombre de usuario no existe";
+  }
+
+  if (user.contraseña === contraseña) {
+    return "Inicio de sesión bien";
+  } else {
+    return "Contraseña incorrecta";
+  }
 }
+
 
 console.log(iniciodesesion("juan123", "1234"));
 
+function registrarse(usuario, contraseña) {
 
-const fs = require("fs");
+  let conectar = JSON.parse(fs.readFileSync("usuario.json", "utf-8"));
 
-function regsitrarse(usuario, contraseña) {
- 
-  if (!fs.existsSync("usuarios.json")) {
-    fs.writeFileSync("usuarios.json", "[]", "utf-8");
+
+  const existe = conectar.find(u => u.usuario === usuario);
+  if (existe) {
+    return "El usuario ya existe";
   }
 
-  let datos = fs.readFileSync("usuarios.json", "utf-8");
-  let usuarios = JSON.parse(datos);
 
-  let existeUsuario = usuarios.find(u => u.nombre === usuario);
-  if (existeUsuario && existeUsuario.password === contraseña) {
-    console.log("⚠️ Ese usuario con esa contraseña ya está registrado.");
-    return;
-  }
-  if (existeUsuario) {
-    console.log("⚠️ El nombre de usuario ya existe, elegí otro.");
-    return;
-  }
+  const nuevoUsuario = { usuario: usuario, contraseña: contraseña };
+  conectar.push(nuevoUsuario);
 
-  let nuevoUsuario = {
-    nombre: usuario,
-    password: contraseña
-  };
+  fs.writeFileSync("usuario.json", JSON.stringify(conectar, null, 2), "utf-8");
 
-  usuarios.push(nuevoUsuario);
-
-  fs.writeFileSync("usuarios.json", JSON.stringify(usuarios, null, 2), "utf-8");
-
-  console.log("✅ Usuario registrado con éxito!");
+  return "Usuario registrado correctamente";
 }
 
 
+ console.log(registrarse("hola", "holab"))
