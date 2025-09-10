@@ -1,35 +1,36 @@
 import fs from "fs";
 
 function iniciodesesion(usuario, contraseña) {
-  
   let conectar = JSON.parse(fs.readFileSync("usuario.json", "utf-8"));
 
-  const user = conectar.find(u => u.usuario === usuario);
+  let user = ""; 
+
+  for (let i = 0; i < conectar.length; i++) {
+    if (conectar[i].usuario === usuario) {
+      user = conectar[i];
+      break;              
+    }
+  }
 
   if (!user) {
     return "El nombre de usuario no existe";
   }
 
   if (user.contraseña === contraseña) {
-    return "Inicio de sesión bien";
+    return "Inicio de sesión correcto";
   } else {
     return "Contraseña incorrecta";
   }
 }
 
-
-console.log(iniciodesesion("juan123", "1234"));
-
 function registrarse(usuario, contraseña) {
-
   let conectar = JSON.parse(fs.readFileSync("usuario.json", "utf-8"));
 
-
-  const existe = conectar.find(u => u.usuario === usuario);
-  if (existe) {
-    return "El usuario ya existe";
+  for (let i = 0; i < conectar.length; i++) {
+    if (conectar[i].usuario === usuario) {
+      return "El usuario ya existe";
+    }
   }
-
 
   const nuevoUsuario = { usuario: usuario, contraseña: contraseña };
   conectar.push(nuevoUsuario);
@@ -39,5 +40,6 @@ function registrarse(usuario, contraseña) {
   return "Usuario registrado correctamente";
 }
 
-
- console.log(registrarse("hola", "holab"))
+console.log(iniciodesesion("Shulian", "Shuli123"));  
+console.log(iniciodesesion("juan123", "1234"));      
+console.log(registrarse("hola", "holab"));         
