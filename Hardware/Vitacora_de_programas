@@ -56,7 +56,7 @@ int boton4 = 0;
 
 void setup() {
  Serial.begin(9600);
- //Esto está puesto con pullup para aumentar la fiabilidad de la lectura, 
+//Esto está puesto con pullup para aumentar la fiabilidad de la lectura, 
 //pero hace que la logica se invierte(cuando esta presionado es 0 pero cuando no lo esta es 1) *CUIDADO*
  pinMode(8, INPUT_PULLUP); 
  pinMode(11,INPUT_PULLUP); 
@@ -125,3 +125,60 @@ void loop() {
   delay(100);
 }
 
+Bien, vamos a tener que programar ahora como va a doblar el auto EN BASE A LOS INPUTS DEL PUERTO SERIAL, no de
+botones, pero la base es la misma. El auto va a tener dos motores, uno en cada rueda trasera, y para doblar va 
+desactivar uno y activar otro, algo asi como los tanques, que giran sobre su propio eje. Codigo:
+
+#define ENA 9
+#define ENB 10
+#define IN1 3
+#define IN2 4
+#define IN3 5
+#define IN4 6
+int velocidad = 200;
+string orden = "";
+
+void setup () {
+  pinMode(3, OUTPUT); 
+ pinMode(4,OUTPUT); 
+ pinMode(9,OUTPUT);
+ pinMode(5,OUTPUT); 
+ pinMode(6,OUTPUT); 
+ pinMode(10,OUTPUT);
+ serial.begin (9600);
+}
+
+void loop () {
+  if (serial.available () > 0) {
+    orden = readString();
+    if(orden == "Adelante") { //los motores tienen que ir a contra-reloj
+      digitalWrite(IN1, HIGH);
+      digitalWrite(IN2, LOW);
+      analogWrite(ENA, velocidad);
+      analogWrite(ENB, velocidad);
+      digitalWrite(IN3, HIGH);
+      digitalWrite(IN4, LOW);
+    }
+    //ENB está del lado derecho del puente h y ENA está del lado izquierdo (mirando desde el lado donde estan los IN y VCC)
+    if(orden == "Izquierda") {
+      digitalWrite(ENA, LOW);
+      analogWrite(ENB, velocidad);
+      digitalWrite(IN3, HIGH);
+      digitalWrite(IN4 , LOW);
+    }
+
+    if(orden == "derecha") {
+      digitalWrite(ENB, LOW);
+      analogWrite(ENA, velocidad);
+      digitalWrite(,);
+      digitalWrite(,);
+    }
+
+    if() {
+      digitalWrite(,);
+      digitalWrite(,);
+      digitalWrite(,);
+      digitalWrite(,);
+    }
+  }
+}
