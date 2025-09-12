@@ -29,3 +29,9 @@ function togglePassword() {
     icono.classList.add("fa-eye");       
   }
 }
+
+let andrea = document.getElementById("registro");
+
+andrea.addEventListener("click", () => {
+  window.location.href = "../Configuracion/contra.html";
+});  

@@ -1,4 +1,4 @@
-const input = document.getElementById("contrasena");
+const input = document.getElementById("contraseña");
 const botonOjo = document.querySelector(".ojo");
 const icono = document.getElementById("iconoOjo");
 
@@ -29,3 +29,9 @@ function togglePassword() {
     icono.classList.add("fa-eye");       
   }
 }
+
+let inicio = document.getElementById("iniciocesion");
+
+inicio.addEventListener("click", () => {
+  window.location.href = "../Configuracion/contra.html";
+});  
