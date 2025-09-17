@@ -128,13 +128,25 @@ void loop() {
 Bien, vamos a tener que programar ahora como va a doblar el auto EN BASE A LOS INPUTS DEL PUERTO SERIAL, no de
 botones, pero la base es la misma. El auto va a tener dos motores, uno en cada rueda trasera, y para doblar va 
 desactivar uno y activar otro, algo asi como los tanques, que giran sobre su propio eje. Codigo (falta probar):
-
+//movimiento de motor
 #define ENA 9
 #define ENB 10
 #define IN1 3
 #define IN2 4
 #define IN3 5
 #define IN4 6
+
+//detección de dedos
+#define sens1 A0
+#define sens2 A1
+#define sens3 A2
+#define sens4 A3
+
+int dedo1 = 0;
+int dedo2 = 0;
+int dedo3 = 0;
+int dedo4 = 0;
+
 int velocidad = 200;
 String orden = "";
 
