@@ -127,7 +127,10 @@ void loop() {
 
 Bien, vamos a tener que programar ahora como va a doblar el auto EN BASE A LOS INPUTS DEL PUERTO SERIAL, no de
 botones, pero la base es la misma. El auto va a tener dos motores, uno en cada rueda trasera, y para doblar va 
-desactivar uno y activar otro, algo asi como los tanques, que giran sobre su propio eje. Codigo (falta probar):
+desactivar uno y activar otro, algo asi como los tanques, que giran sobre su propio eje. Ademas, hicimos 
+sistema que va a enviar los datos que registran los sensores de flexión 
+Codigo:
+
 //movimiento de motor
 #define ENA 9
 #define ENB 10
@@ -135,6 +138,7 @@ desactivar uno y activar otro, algo asi como los tanques, que giran sobre su pro
 #define IN2 4
 #define IN3 5
 #define IN4 6
+int velocidad = 200;
 
 //detección de dedos
 #define sens1 A0
@@ -147,20 +151,50 @@ int dedo2 = 0;
 int dedo3 = 0;
 int dedo4 = 0;
 
-int velocidad = 200;
 String orden = "";
 
 void setup () {
-  pinMode(3, OUTPUT); 
+ //movimiento de motor
+ pinMode(3, OUTPUT); 
  pinMode(4,OUTPUT); 
  pinMode(9,OUTPUT);
  pinMode(5,OUTPUT); 
  pinMode(6,OUTPUT); 
  pinMode(10,OUTPUT);
  Serial.begin (9600);
+ //detección de dedos
+ pinMode(sens1, INPUT);
+ pinMode(sens2,INPUT);
+ pinMode(sens3,INPUT);
+ pinMode(sens4,INPUT);
 }
 
 void loop () {
+  //detección de dedos:
+
+  //los dedos envian por puerto analogico un valor, en cuanto mas alto, mas flexionado el dedo
+  //vamos a enviar esos datos al back end quien tiene que interpretarlos y enviar la "orden"
+  dedo1 = analogRead(sens1);
+  dedo2 = analogread(sens2);
+  dedo3 = analogRead(sens3);
+  dedo4 = analogRead(sens4);
+  if(dedo1 > 0) {
+    SerialPrintIn("dedo menique = " dedo1);
+  }
+
+  if(dedo2 > 0) {
+    SerialPrintIn("dedo anular = " dedo 2);
+  }
+
+  if(dedo3 > 0) {
+    SerialPrintIn("Dedo mayor = " dedo3):
+  }
+
+  if(dedo4 > 0) {
+    SerialPrintIn("dedo indice = " dedo 4);
+  }
+
+  //movimiento de motores:
   if (Serial.available () > 0) {
     orden = Serial.readString();
     if (orden == "Adelante") { //los motores tienen que ir a contra-reloj
@@ -220,4 +254,5 @@ void loop () {
     }
     
   }
+  
 }
