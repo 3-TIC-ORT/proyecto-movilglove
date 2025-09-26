@@ -43,3 +43,4 @@ function registrarse(usuario, contraseña) {
 console.log(iniciodesesion("Shulian", "Shuli123"));  
 console.log(iniciodesesion("juan123", "1234"));      
 console.log(registrarse("hola", "holab"));         
+
