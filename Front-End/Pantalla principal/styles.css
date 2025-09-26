@@ -1,17 +1,23 @@
-  .titulo{
+  body{
+      margin: 0; 
+      height: 100vh; 
+      background-image: url("https://www.hollywoodreporter.com/wp-content/uploads/2017/06/wall-e_-_h_-_2008.jpg?w=1296&h=730&crop=1"); /* tu imagen */
+      background-repeat: no-repeat; 
+      background-position: center center; 
+      background-size: cover; 
+      background-attachment: fixed; 
+    }
+    
+  
+  #iniciar{
 
-display: flex;
-flex-direction: column;
-align-items: center;
-padding: 0px;
-gap: 95px;
+background-color: #002750;
+color: white;
+  }
 
-position: absolute;
-width: 1115px;
-height: 791px;
-left: 0px;
-top: 62px;
-color: #2B00FF;
+  #registrarse{
 
+background-color: #002750;
+color:white;
 
   }
