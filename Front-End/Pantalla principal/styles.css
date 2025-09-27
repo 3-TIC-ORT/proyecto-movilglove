@@ -1,7 +1,7 @@
   body{
       margin: 0; 
       height: 100vh; 
-      background-image: url("https://www.hollywoodreporter.com/wp-content/uploads/2017/06/wall-e_-_h_-_2008.jpg?w=1296&h=730&crop=1"); /* tu imagen */
+      background-image: url("https://www.hollywoodreporter.com/wp-content/uploads/2017/06/wall-e_-_h_-_2008.jpg?w=1296&h=730&crop=1"); 
       background-repeat: no-repeat; 
       background-position: center center; 
       background-size: cover; 
@@ -13,11 +13,28 @@
 
 background-color: #002750;
 color: white;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px 28px;          
+  border: none;
+  border-radius: 8px;         
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+
   }
 
   #registrarse{
 
 background-color: #002750;
 color:white;
+font-size: 16px;
+  font-weight: 500;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
 
   }
