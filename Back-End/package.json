@@ -2,8 +2,10 @@
   "name": "proyecto-movilglove",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "type": "module",
+  "main": "node.js",
   "scripts": {
+    "start": "node node.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/3-TIC-ORT/proyecto-movilglove/issues"
   },
-  "homepage": "https://github.com/3-TIC-ORT/proyecto-movilglove#readme"
+  "homepage": "https://github.com/3-TIC-ORT/proyecto-movilglove#readme",
+  "dependencies": {
+    "soquetic": "^1.4.2"
+  }
 }

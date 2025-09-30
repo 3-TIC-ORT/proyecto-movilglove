@@ -1,4 +1,5 @@
 import fs from "fs";
+import { subscribeGETEvent, subscribePOSTEvent, realTimeEvent, startServer } from "soquetic";
 
 function iniciodesesion(usuario, contraseña) {
   let conectar = JSON.parse(fs.readFileSync("usuario.json", "utf-8"));
@@ -42,5 +43,16 @@ function registrarse(usuario, contraseña) {
 
 console.log(iniciodesesion("Shulian", "Shuli123"));  
 console.log(iniciodesesion("juan123", "1234"));      
-console.log(registrarse("hola", "holab"));         
+console.log(registrarse("hola", "holab"));       
+
+
+subscribePOSTEvent("login", (data) => {
+  return iniciodesesion(data.usuario, data.contraseña);
+});
+
+subscribePOSTEvent("register", (data) => {
+  return registrarse(data.usuario, data.contraseña);
+});
+
+startServer(3000, true);
 

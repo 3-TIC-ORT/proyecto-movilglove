@@ -35,3 +35,30 @@ let andrea = document.getElementById("registro");
 andrea.addEventListener("click", () => {
   window.location.href = "../Configuracion/contra.html";
 });  
+
+
+connect2Server(3000);
+
+
+function registrarUsuario(usuario, contraseña) {
+  postEvent("register", { usuario, contraseña }, (resp) => {
+    alert(resp.msg); 
+  });
+}
+
+
+const inputUsuario = document.getElementById("usuarioRegistro");
+const inputContraseña = document.getElementById("contraseñaRegistro");
+const btnRegistrar = document.getElementById("btnRegistrar");
+
+btnRegistrar.addEventListener("click", () => {
+  const usuario = inputUsuario.value.trim();
+  const contraseña = inputContraseña.value.trim();
+  if (usuario && contraseña) {
+    registrarUsuario(usuario, contraseña);
+    inputUsuario.value = "";
+    inputContraseña.value = "";
+  } else {
+    alert("Por favor completá todos los campos");
+  }
+});
