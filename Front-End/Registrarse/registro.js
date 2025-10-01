@@ -32,9 +32,6 @@ function togglePassword() {
 
 let andrea = document.getElementById("registro");
 
-andrea.addEventListener("click", () => {
-  window.location.href = "../Configuracion/contra.html";
-});  
 
 
 connect2Server(3000);
@@ -46,10 +43,9 @@ function registrarUsuario(usuario, contraseña) {
   });
 }
 
-
-const inputUsuario = document.getElementById("usuarioRegistro");
-const inputContraseña = document.getElementById("contraseñaRegistro");
-const btnRegistrar = document.getElementById("btnRegistrar");
+const inputUsuario = document.getElementById("usuario");
+const inputContraseña = document.getElementById("contrasena");
+const btnRegistrar = document.getElementById("registro");
 
 btnRegistrar.addEventListener("click", () => {
   const usuario = inputUsuario.value.trim();
@@ -58,6 +54,7 @@ btnRegistrar.addEventListener("click", () => {
     registrarUsuario(usuario, contraseña);
     inputUsuario.value = "";
     inputContraseña.value = "";
+    console.log("este es el usuario:",usuario)
   } else {
     alert("Por favor completá todos los campos");
   }

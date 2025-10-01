@@ -50,9 +50,10 @@ function iniciarSesion(usuario, contraseña) {
 }
 
 
-const inputUsuario = document.getElementById("usuarioLogin");
-const inputContraseña = document.getElementById("contraseñaLogin");
-const btnLogin = document.getElementById("btnLogin");
+const inputUsuario = document.getElementById("usuario");
+const inputContraseña = document.getElementById("contraseña");
+const btnLogin = document.getElementById("iniciocesion");
+
 
 btnLogin.addEventListener("click", () => {
   const usuario = inputUsuario.value.trim();
