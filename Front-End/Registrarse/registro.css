@@ -34,3 +34,35 @@
     box-sizing: border-box;
     
   }
+
+  .registro {
+    color: #fff; 
+    border: none; 
+    border-radius: 10px; 
+    padding: 10px 30px; 
+    font-size: 18px;
+    font-family: 'Segoe UI', sans-serif;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.3s ease;
+    display: inline-block;
+    width: 195px;
+    font-weight: 500;
+    background-color: #00458D;
+  }
+  
+  
+  .registro:hover {
+    background: linear-gradient(180deg, #2a5298, #1e3c72);
+    transform: scale(1.05);
+  }
+  
+
+h1{
+
+  font-family: ethnocentric;
+}
+  
+  
+  
+
+  
