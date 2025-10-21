@@ -9,6 +9,9 @@
     <title>Document</title>
 </head>
 <body>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/JZylber/SoqueTIC-Client@v1.4.2/soquetic-client.js"></script>  
   <div class="titulo">
     <img src="../img/Frame 13.png" alt="imagern">
   </div>
@@ -18,7 +21,7 @@
         <button type="button" class="ojo" onclick="togglePassword()">
           <i id="iconoOjo" class="fa-solid fa-eye"></i>
         </button>
-        <button class="registro">Registrarse</button>
+        <button id="registro">Registrarse</button>
       </div>
       <script src="registro.js"></script>
       <div class="fondo">
