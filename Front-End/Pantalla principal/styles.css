@@ -9,33 +9,31 @@
         
     }
     
-  
-  #iniciar{
-
-background-color: #002750;
-color: white;
-  font-size: 16px;
-  font-weight: 500;
-  padding: 12px 28px;          
-  border: none;
-  border-radius: 8px;         
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-
-
-  }
-
-  #registrarse{
-
-background-color: #002750;
-color:white;
-font-size: 16px;
-  font-weight: 500;
-  padding: 12px 28px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-
-
-  }
+    #movil4glo{
+     
+    }
+   
+    #iniciar {
+      background-color: #002750;
+      color: white;
+      font-size: 16px;
+      font-weight: 560;
+      padding: 10px 60px;
+      border: 3px solid white; 
+      border-radius: 15px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    
+    #registrarse {
+      background-color: #002750;
+      color: white;
+      font-size: 16px;
+      font-weight: 560;
+      padding: 10px 60px;
+      border: 3px solid white; 
+      border-radius: 15px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    
