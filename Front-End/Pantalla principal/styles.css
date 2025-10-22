@@ -9,7 +9,9 @@
         
     }
     
-    #movil4glo{
+    img{
+      width: 800px;
+  
      
     }
    
@@ -23,6 +25,7 @@
       border-radius: 15px;
       cursor: pointer;
       transition: background-color 0.3s ease, transform 0.2s ease;
+      margin-left: 20px;
     }
     
     #registrarse {
