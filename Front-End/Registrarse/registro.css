@@ -47,7 +47,7 @@ background-image: url(../img/Registarse\ 15.png);
   #registro {
     color: #fff; 
     border: 3px solid white; 
-    border-radius: 10px; 
+    border-radius: 14px; 
     padding: 10px 30px; 
     font-size: 18px;
     font-family: 'Segoe UI', sans-serif;
@@ -65,4 +65,61 @@ background-image: url(../img/Registarse\ 15.png);
     transform: scale(1.05);
   }
   
+
+  #usuario{
+    width: 250px;
+    padding: 10px 15px;
+    margin: 10px 0;
+    border: 2px solid #ffffff;
+    border-radius: 6px;
+    background-color: transparent;
+    color: #ffffff;
+    font-size: 14px;
+    font-family: 'Orbitron', sans-serif; 
+    outline: none;
+    transition: 0.3s;
+  }
+  
+  #usuario::placeholder {
+    color: #ffffff;
+    opacity: 0.8;
+  }
+
+  #contrasena{
+
+      width: 250px;
+      padding: 10px 15px;
+      margin: 10px 0;
+      border: 2px solid #ffffff;
+      border-radius: 6px;
+      background-color: transparent;
+      color: #ffffff;
+      font-size: 14px;
+      font-family: 'Orbitron', sans-serif; 
+      outline: none;
+      transition: 0.3
+  }
+
+  #contrasena::placeholder {
+    color: #ffffff;
+    opacity: 0.8;
+  }
+
+  .rectangulo img {
+width: 580px;
+display: block;
+margin: 0 auto;
+margin-top: -200px;
+
+  }
+
+  .titulo img {
+  display: block;
+  margin: 0 auto;
+  width: 1000px;
+  
+  
+
+
+  }
 
