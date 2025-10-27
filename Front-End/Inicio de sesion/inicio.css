@@ -1,3 +1,24 @@
+body{
+
+  background-image: url(../img/Registarse\ 15.png);
+
+}
+
+
+#iniciocesion{
+  color: #fff; 
+  border: 3px solid white; 
+  border-radius: 14px; 
+  padding: 10px 30px; 
+  font-size: 18px;
+  font-family: 'Segoe UI', sans-serif;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+  display: inline-block;
+  width: 195px;
+  font-weight: 500;
+  background-color: #00458D;
+}
 .campo {
     position: relative;
     width: 250px;
@@ -84,7 +105,66 @@ color: #5E5E5E;
 
 }
 
+#usuario {
+  width: 250px;
+  height: 30px;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
   
+}
+
+
+
+
+#usuario{
+  width: 250px;
+  padding: 10px 15px;
+  margin: 10px 0;
+  border: 2px solid #ffffff;
+  border-radius: 6px;
+  background-color: transparent;
+  color: #ffffff;
+  font-size: 14px;
+  font-family: 'Orbitron', sans-serif; 
+  outline: none;
+  transition: 0.3s;
+}
+
+#usuario::placeholder {
+  color: #ffffff;
+  opacity: 0.8;
+}
+
+#contrasena{
+
+    width: 250px;
+    padding: 10px 15px;
+    margin: 10px 0;
+    border: 2px solid #ffffff;
+    border-radius: 6px;
+    background-color: transparent;
+    color: #ffffff;
+    font-size: 14px;
+    font-family: 'Orbitron', sans-serif; 
+    outline: none;
+    transition: 0.3
+}
+
+#contrasena::placeholder {
+  color: #ffffff;
+  opacity: 0.8;
+}
   
 
-  
+.rectangulo img {
+  position: relative;      
+  width: 580px;
+  margin: 0 auto;
+  margin-top: -120px;
+}
+
+.rectangulo img {
+  width: 100%;
+  display: block;
+}

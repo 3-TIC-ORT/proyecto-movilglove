@@ -2,11 +2,28 @@
 
 body{
 background-image: url(../img/Registarse\ 15.png);
+}
 
+#registro {
+  color: #fff; 
+  border: 3px solid white; 
+  border-radius: 14px; 
+  padding: 10px 30px; 
+  font-size: 18px;
+  font-family: 'Segoe UI', sans-serif;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+  display: inline-block;
+  width: 195px;
+  font-weight: 500;
+  background-color: #00458D;
 }
 
 
-
+.registro:hover {
+  background: linear-gradient(180deg, #2a5298, #1e3c72);
+  transform: scale(1.05);
+}
 .campo {
     position: relative;
     width: 250px;
@@ -44,26 +61,7 @@ background-image: url(../img/Registarse\ 15.png);
     
   }
 
-  #registro {
-    color: #fff; 
-    border: 3px solid white; 
-    border-radius: 14px; 
-    padding: 10px 30px; 
-    font-size: 18px;
-    font-family: 'Segoe UI', sans-serif;
-    cursor: pointer;
-    transition: transform 0.2s ease, background 0.3s ease;
-    display: inline-block;
-    width: 195px;
-    font-weight: 500;
-    background-color: #00458D;
-  }
   
-  
-  .registro:hover {
-    background: linear-gradient(180deg, #2a5298, #1e3c72);
-    transform: scale(1.05);
-  }
   
 
   #usuario{
@@ -105,21 +103,29 @@ background-image: url(../img/Registarse\ 15.png);
     opacity: 0.8;
   }
 
+  .rectangulo {
+    position: relative;      
+    width: 580px;
+    margin: 0 auto;
+    margin-top: -120px;
+  }
+  
   .rectangulo img {
-width: 580px;
-display: block;
-margin: 0 auto;
-margin-top: -200px;
-
+    width: 100%;
+    display: block;
   }
-
+  
+  .titulo {
+    position: absolute;     
+    top: 5px;                  
+    left: -7px;
+    width: 100%;
+    display: flex;           
+    justify-content: center;
+  }
+  
   .titulo img {
-  display: block;
-  margin: 0 auto;
-  width: 1000px;
-  
-  
-
-
+    width: 900px;            
   }
+  
 
