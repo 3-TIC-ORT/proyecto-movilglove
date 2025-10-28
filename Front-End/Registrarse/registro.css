@@ -5,6 +5,8 @@ background-image: url(../img/Registarse\ 15.png);
 }
 
 #registro {
+  display: flex;
+  justify-content: center;
   color: #fff; 
   border: 3px solid white; 
   border-radius: 14px; 
@@ -17,6 +19,8 @@ background-image: url(../img/Registarse\ 15.png);
   width: 195px;
   font-weight: 500;
   background-color: #00458D;
+  display: block;
+  margin: 0 auto;
 }
 
 

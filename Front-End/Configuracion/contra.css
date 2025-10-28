@@ -1,0 +1,17 @@
+body{
+
+    background-image: url(../img/Registarse\ 15.png);
+}
+
+#mano {
+    display: flex;
+    justify-content: center; 
+    align-items: center;     /* Centra verticalmente (si querés) */
+    margin-top: 120px;       /* Sube o baja todo el bloque */
+  }
+  
+  #mano img {
+    width: 500px; /* Tamaño de la imagen */
+    margin-top: -200px;
+    
+  }
