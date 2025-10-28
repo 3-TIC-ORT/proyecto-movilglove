@@ -104,10 +104,16 @@ background-image: url(../img/Registarse\ 15.png);
   }
 
   .rectangulo {
-    position: relative;      
+    display: flex;  
+    background-color: #ffffff40;
+    border: 4px solid #CCC9C9;  
+    border-radius: 20px;    
     width: 580px;
     margin: 0 auto;
-    margin-top: -120px;
+    width: 600px;
+    height: 550px;
+    margin-top: 36px;
+    opacity: "";
   }
   
   .rectangulo img {
@@ -115,14 +121,7 @@ background-image: url(../img/Registarse\ 15.png);
     display: block;
   }
   
-  .titulo {
-    position: absolute;     
-    top: 5px;                  
-    left: -7px;
-    width: 100%;
-    display: flex;           
-    justify-content: center;
-  }
+
   
   .titulo img {
     width: 900px;            
