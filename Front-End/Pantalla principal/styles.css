@@ -18,22 +18,23 @@
     #iniciar {
       background-color: #002750;
       color: white;
-      font-size: 16px;
+      font-size: 20px;
       font-weight: 560;
-      padding: 10px 60px;
+      padding: 12px 65px;
       border: 3px solid white; 
       border-radius: 15px;
       cursor: pointer;
       transition: background-color 0.3s ease, transform 0.2s ease;
-      margin-left: 20px;
+      margin-left: 40px;
+      margin-top: 70px;
     }
     
     #registrarse {
       background-color: #002750;
       color: white;
-      font-size: 16px;
+      font-size: 20px;
       font-weight: 560;
-      padding: 10px 60px;
+      padding: 12px 65px;
       border: 3px solid white; 
       border-radius: 15px;
       cursor: pointer;

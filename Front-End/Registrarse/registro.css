@@ -10,17 +10,18 @@ background-image: url(../img/Registarse\ 15.png);
   color: #fff; 
   border: 3px solid white; 
   border-radius: 14px; 
-  padding: 10px 30px; 
-  font-size: 18px;
+  padding: 12px 30px; 
+  font-size: 21px;
   font-family: 'Segoe UI', sans-serif;
   cursor: pointer;
   transition: transform 0.2s ease, background 0.3s ease;
   display: inline-block;
-  width: 195px;
+  width: 200px;
   font-weight: 500;
   background-color: #00458D;
   display: block;
   margin: 0 auto;
+  text-align: center;
 }
 
 
