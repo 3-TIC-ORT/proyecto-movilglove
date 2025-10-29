@@ -26,3 +26,7 @@ Problema 5: El codigo no imprimia los valores de flexión por un problema de con
 Problema 6: Tinkercad simula mal nuestro circuito (por mas raro que suene)
 
     Luego de crear ese divisor de voltaje volvimos a probar si funcionaba, y esta vez tampoco funcionó. Ahí fue cuando nos enteramos por la IA que al parecer tinkercad tiene problemas para simular estos sensores y no funcionan bien casi nunca. Nos paresió rarísima la respuesta, pero lo confirmó un profesor al que le preguntamos, asi que ahora tenemos que esperar a que lleguen los flex sensors y probarlo en persona... Que tensión.
+
+Problema 7: El proveedor tiene problemas con nuestros sensores
+
+    El 29/10 Dario (coordinador del area) nos dijo que a pesar de que el pedido de los sensores había salido de la escuela al proveedor, este entregó todo el material excepto nuestros sensores en si. Según él, no es un problema de gestión del colegio sino que se debe a un error del proveedor que aun no a dado explicación. En consecuencia nos atrasaran la fecha de entrega del proyecto a una fecha aun por determinar.  
