@@ -1,17 +1,66 @@
-body{
-
-    background-image: url(../img/Registarse\ 15.png);
+body {
+  background-image: url(../img/Registarse\ 15.png);
+  background-size: cover;
+  background-position: center;
+  margin: 0;
+  padding: 0;
 }
 
 #mano {
-    display: flex;
-    justify-content: center; 
-    align-items: center;     /* Centra verticalmente (si querés) */
-    margin-top: 120px;       /* Sube o baja todo el bloque */
-  }
-  
-  #mano img {
-    width: 500px; /* Tamaño de la imagen */
-    margin-top: -200px;
-    
-  }
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: -250px;
+}
+
+#mano img {
+  width: 850px;
+}
+
+
+#mano select {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background-color: #ffffffb0;
+  border: 2px solid #333;
+  border-radius: 8px;
+  padding: 5px;
+  font-size: 14px;
+}
+
+
+#indice {
+  top: 130px;
+  left: 48%;
+  margin-top: 190px;
+}
+
+#medio {
+  top: 100px;
+  left: 53%;
+  margin-top: 190px;
+}
+
+#anular {
+  top: 130px;
+  left: 58%;
+  margin-top: 190px;
+}
+
+#meñique {
+  top: 160px;
+  left: 63%;
+  margin-top: 120px;
+}
+
+#guardar {
+  display: block;
+  margin: 80px auto;
+  padding: 10px 25px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
