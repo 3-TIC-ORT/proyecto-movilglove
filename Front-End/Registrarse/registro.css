@@ -69,14 +69,14 @@ background-image: url(../img/Registarse\ 15.png);
   
 
   #usuario{
-    width: 250px;
-    padding: 10px 15px;
-    margin: 10px 0;
-    border: 2px solid #ffffff;
+    background-color: #002750;
+    width: 500px;
+    padding: 22px 15px;
+    margin: 100px 0 90px 53px; /* arriba, derecha, abajo, izquierda */
+    border: 4px solid #ffffff;
     border-radius: 6px;
-    background-color: transparent;
     color: #ffffff;
-    font-size: 14px;
+    font-size: 22px;
     font-family: 'Orbitron', sans-serif; 
     outline: none;
     transition: 0.3s;
@@ -87,20 +87,20 @@ background-image: url(../img/Registarse\ 15.png);
     opacity: 0.8;
   }
 
-  #contrasena{
-
-      width: 250px;
-      padding: 10px 15px;
-      margin: 10px 0;
-      border: 2px solid #ffffff;
-      border-radius: 6px;
-      background-color: transparent;
-      color: #ffffff;
-      font-size: 14px;
-      font-family: 'Orbitron', sans-serif; 
-      outline: none;
-      transition: 0.3
+  #contrasena {
+    background-color: #002750;
+    width: 500px;
+    padding: 22px 15px;
+    margin:-90px 0 90px 53px; /* arriba, derecha, abajo, izquierda */
+    border: 4px solid #ffffff;
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 22px;
+    font-family: 'Orbitron', sans-serif; 
+    outline: none;
+    transition: 0.3s;
   }
+  
 
   #contrasena::placeholder {
     color: #ffffff;
@@ -124,11 +124,12 @@ background-image: url(../img/Registarse\ 15.png);
     width: 100%;
     display: block;
   }
-  
 
   
   .titulo img {
-    width: 900px;            
+    width: 900px;
+    display: flex;
+    justify-content: center;            
   }
   
 
