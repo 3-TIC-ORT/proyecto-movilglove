@@ -10,7 +10,7 @@ body {
   position: relative;
   display: flex;
   justify-content: center;
-  margin-top: -250px;
+  margin-top: -300px;
 }
 
 #mano img {
@@ -31,27 +31,34 @@ body {
 
 #indice {
   top: 130px;
-  left: 48%;
-  margin-top: 190px;
+  left: 43%;
+  margin-top: 250px;
+  opacity: 0;
+
 }
 
 #medio {
   top: 100px;
   left: 53%;
   margin-top: 190px;
+  margin-top: 220px;
+  opacity: 0;
 }
 
 #anular {
   top: 130px;
-  left: 58%;
-  margin-top: 190px;
+  left: 62%;
+  margin-top: 240px;
+  opacity: 0;
 }
 
 #meñique {
   top: 160px;
-  left: 63%;
-  margin-top: 120px;
+  left: 69%;
+  margin-top: 330px;
+  opacity: 0;
 }
+
 
 #guardar {
   display: block;
@@ -63,4 +70,12 @@ body {
   border-radius: 10px;
   font-size: 16px;
   cursor: pointer;
+}
+
+#titulo img{
+
+width: 900px;
+display: flex;
+justify-content: center;
+margin-top: 0px;
 }
