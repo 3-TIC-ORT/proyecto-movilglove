@@ -1,0 +1,129 @@
+//movimiento de motor
+#define ENA 9
+#define ENB 10
+#define IN1 3
+#define IN2 4
+#define IN3 5
+#define IN4 6
+int velocidad = 200;
+
+//botonera
+#define sens1 0
+#define sens2 1
+#define sens3 2
+#define sens4 7
+
+int boton1 = 0;
+int boton2 = 0;
+int boton3 = 0;
+int boton4 = 0;
+
+String orden = "";
+
+void setup () {
+ //movimiento de motor
+ pinMode(3, OUTPUT); 
+ pinMode(4,OUTPUT); 
+ pinMode(9,OUTPUT);
+ pinMode(5,OUTPUT); 
+ pinMode(6,OUTPUT); 
+ pinMode(10,OUTPUT);
+ Serial.begin (9600);
+ //detección de botones
+ pinMode(sens1, INPUT_PULLUP);
+ pinMode(sens2,INPUT_PULLUP);
+ pinMode(sens3,INPUT_PULLUP);
+ pinMode(sens4,INPUT_PULLUP);
+}
+
+void loop () {
+  //botonera:
+
+
+  boton1 = digitalRead(sens1);
+  boton2 = digitalRead(sens2);
+  boton3 = digitalRead(sens3);
+  boton4 = digitalRead(sens4);
+  if(boton1= 0) {
+    Serial.print("boton 1 = ");
+    Serial.println(boton1);
+  }
+
+  if(boton2 = 0) {
+    Serial.print("boton 2 = "); 
+    Serial.println(boton2);
+  }
+
+  if(boton = 0) {
+    Serial.print("boton 3 = "); 
+    Serial.println(boton3);
+  }
+
+  if(boton4 = 0) {
+    Serial.print("boton 4 = "); 
+    Serial.println(boton4);
+  }
+
+  //movimiento de motores:
+  if (Serial.available () > 0) {
+    orden = Serial.readString();
+    if (orden == "Adelante") { //los motores tienen que ir a contra-reloj
+      digitalWrite(IN1, HIGH);
+      digitalWrite(IN2, LOW);
+      analogWrite(ENA, velocidad);
+      analogWrite(ENB, velocidad);
+      digitalWrite(IN3, HIGH);
+      digitalWrite(IN4, LOW);
+      Serial.println("adelante");
+    }
+    //ENB está del lado derecho del puente h y ENA está del lado izquierdo (mirando desde el lado donde estan los IN y VCC)
+    if (orden == "Izquierda") {
+      analogWrite(ENA, 0);
+      analogWrite(ENB, velocidad);
+      digitalWrite(IN3, HIGH);
+      digitalWrite(IN4 , LOW);
+      Serial.println("izquierda");
+    }
+
+    if (orden == "Derecha") {
+      analogWrite(ENB, 0);
+      analogWrite(ENA, velocidad);
+      digitalWrite(IN1, HIGH);
+      digitalWrite(IN2, LOW);
+      Serial.println("derecha");
+    }
+
+    if (orden == "Atras") {
+      analogWrite(ENA, velocidad);
+      analogWrite(ENB, velocidad);
+      digitalWrite(IN2, HIGH);
+      digitalWrite(IN4, HIGH);
+      digitalWrite(IN1, LOW);
+      digitalWrite(IN3, LOW);
+      Serial.println("atras");
+    }
+    //estos de aca es para que el auto pueda doblar yendo en reversa, es lo mismo que los de derecha e izquierda
+    //pero con los IN1 e IN2, IN3 e IN4 invertidos
+    if (orden == "Izquierda r") {
+      analogWrite(ENA, 0);
+      analogWrite(ENB, velocidad);
+      digitalWrite(IN3, LOW);
+      digitalWrite(IN4 , HIGH);
+      Serial.println("izquierda r");
+    }
+    if (orden == "Derecha r") {
+      analogWrite(ENB, 0);
+      analogWrite(ENA, velocidad);
+      digitalWrite(IN1, LOW);
+      digitalWrite(IN2, HIGH);
+      Serial.println("derecha r");
+    }
+    else {
+      analogWrite(ENA, 0);
+      analogWrite(ENB, 0);
+    }
+    
+  }
+  delay(100);
+  
+}
