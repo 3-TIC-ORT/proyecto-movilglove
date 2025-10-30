@@ -6,7 +6,7 @@
       background-position: center center; 
       background-size: cover; 
       background-attachment: fixed; 
-        
+      position: relative;
     }
     
     img{
@@ -15,28 +15,35 @@
      
     }
    
+    
+    
+    
     #iniciar {
+      position: absolute;
+      top: 63%;  
+      left: 18%;  
       background-color: #002750;
       color: white;
       font-size: 20px;
       font-weight: 560;
-      padding: 12px 65px;
+      padding: 12px 66px;
       border: 3px solid white; 
       border-radius: 15px;
       cursor: pointer;
       transition: background-color 0.3s ease, transform 0.2s ease;
-      margin-left: 40px;
-      margin-top: 70px;
     }
     
     #registrarse {
+      position: absolute;
+      top: 77%;   
+      left: 18%;  
       background-color: #002750;
       color: white;
       font-size: 20px;
       font-weight: 560;
-      padding: 12px 65px;
+      padding: 12px 73px;
       border: 3px solid white; 
-      border-radius: 15px;
+      border-radius: 15px;  
       cursor: pointer;
       transition: background-color 0.3s ease, transform 0.2s ease;
     }
