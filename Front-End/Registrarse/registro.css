@@ -14,9 +14,10 @@ background-image: url(../img/Registarse\ 15.png);
   width: 220px;
   font-weight: 500;
   background-color: #00458D;
-  margin-top: 200px;
   display: block;       
-  margin: 30px auto;
+  margin-top: -55px;
+margin-left: auto;
+margin-right: auto;
   text-align: center;   
 }
 
@@ -53,6 +54,9 @@ background-image: url(../img/Registarse\ 15.png);
     color: #333;
   }
   
+  .campo .ojo {
+    display: none;
+  }
   
   #usuario {
     width: 300px;
@@ -70,7 +74,7 @@ background-image: url(../img/Registarse\ 15.png);
     background-color: #002750;
     width: 500px;
     padding: 26px 15px;
-    margin: 110px 0 50px 53px; /* arriba, derecha, abajo, izquierda */
+    margin: 90px 0 50px 53px; /* arriba, derecha, abajo, izquierda */
     border: 4px solid #ffffff;
     border-radius: 6px;
     color: #ffffff;
@@ -89,7 +93,7 @@ background-image: url(../img/Registarse\ 15.png);
     background-color: #002750;
     width: 500px;
     padding: 26px 15px;
-    margin:-90px 0 90px 53px; /* arriba, derecha, abajo, izquierda */
+    margin:-90px 0 120px 53px; /* arriba, derecha, abajo, izquierda */
     border: 4px solid #ffffff;
     border-radius: 6px;
     color: #ffffff;
@@ -128,7 +132,7 @@ background-image: url(../img/Registarse\ 15.png);
     display: flex;
     justify-content: center;       
     scale: 1.5;   
-    margin-top: 30px;  
+    margin-top: 50px;  
   }
   
 
