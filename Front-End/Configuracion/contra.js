@@ -35,3 +35,29 @@ btnGuardar.addEventListener("click", () => {
   });
 });
 
+  // contra.js
+
+const socket = io();
+
+// Obtenemos los selects
+const indice = document.getElementById("indice");
+const medio = document.getElementById("medio");
+const anular = document.getElementById("anular");
+const meñique = document.getElementById("meñique");
+const btnEnviarConfig = document.getElementById("guardar"); // cambiamos el nombre de la variable
+
+// Cuando se aprieta el botón guardar
+btnEnviarConfig.addEventListener("click", () => {
+  const configuracion = {
+    indice: indice.value,
+    medio: medio.value,
+    anular: anular.value,
+    meñique: meñique.value,
+  };
+
+  // Enviar configuración al servidor
+  socket.emit("enviarConfiguracion", configuracion);
+  alert("Configuración enviada al Arduino ✅");
+});
+
+
