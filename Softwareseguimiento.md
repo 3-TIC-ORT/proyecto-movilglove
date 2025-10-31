@@ -11,3 +11,5 @@ import fs from "fs";
 andrea.addEventListener("click", () => {
   window.location.href = "../Configuracion/contra.html";
 });  
+
+mediuum gustavo machado
