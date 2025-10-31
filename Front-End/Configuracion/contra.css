@@ -80,3 +80,16 @@ justify-content: center;
 margin-top: 0px;
 }
 
+#ayuda{
+
+ width: 60px;           /* ancho */
+  height: 60px;          /* alto */
+  border-radius: 50%;    /* lo hace circular */
+  background-color: black; /* color de fondo (puede ser otro) */
+  color: white;           /* color del texto o ícono */
+  border: none;           /* opcional: quita el borde */
+  font-size: 20px;        /* tamaño del texto o ícono */
+  margin-left: 1250px;
+  margin-top: 200px;
+
+}
