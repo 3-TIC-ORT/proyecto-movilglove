@@ -10,11 +10,11 @@ body {
   position: relative;
   display: flex;
   justify-content: center;
-  margin-top: -300px;
+  margin-top: -260px;
 }
 
 #mano img {
-  width: 850px;
+  width: 700px;
 }
 
 
@@ -30,33 +30,42 @@ body {
 
 
 #indice {
-  top: 130px;
-  left: 43%;
+  top: 80px;
+  left: 45%;
   margin-top: 250px;
+  width: 100px;   
+  height: 30px;   
   opacity: 0;
 
 }
 
 #medio {
-  top: 100px;
+  top: 90px;
   left: 53%;
   margin-top: 190px;
-  margin-top: 220px;
-  opacity: 0;
+  width: 100;   
+  height: 30;   
+  opacity: 0; 
+  
 }
 
 #anular {
-  top: 130px;
-  left: 62%;
+  top: 80px;
+  left: 59%;
   margin-top: 240px;
+  width: 100px;   
+  height: 30px;   
   opacity: 0;
 }
 
 #meñique {
-  top: 160px;
-  left: 69%;
+  top: 70px;
+  left: 65%;
   margin-top: 330px;
+  width: 100px;   
+  height: 30px;  
   opacity: 0;
+
 }
 
 
@@ -70,26 +79,33 @@ body {
   border-radius: 10px;
   font-size: 16px;
   cursor: pointer;
+  margin-top: 0px;
 }
 
-#titulo img{
+#titulo {
+  display: flex;
+  justify-content: center; /* centra horizontalmente */
+  align-items: center;     /* centra verticalmente (opcional) */
+}
 
-width: 900px;
-display: flex;
-justify-content: center;
-margin-top: 0px;
+#titulo img {
+  width: 800px;
+  margin-top: 0px;
 }
 
 #ayuda{
-
- width: 60px;           /* ancho */
-  height: 60px;          /* alto */
-  border-radius: 50%;    /* lo hace circular */
-  background-color: black; /* color de fondo (puede ser otro) */
-  color: white;           /* color del texto o ícono */
-  border: none;           /* opcional: quita el borde */
-  font-size: 20px;        /* tamaño del texto o ícono */
-  margin-left: 1250px;
-  margin-top: 200px;
-
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: black;
+    color: white;
+    border: none;
+    font-size: 20px;
+    position: fixed;       /* 🔹 Fija el botón a la pantalla */
+    bottom: 30px;          /* distancia desde abajo */
+    right: 30px;           /* distancia desde la derecha */
+    cursor: pointer;
+    z-index: 1000;         /* asegura que quede encima de todo */
+  
+  
 }
