@@ -1,0 +1,60 @@
+body{
+
+   background-image: url(../img/Registarse\ 15.png); 
+  
+}
+
+/* ...existing code... */
+
+.siguienteee{
+  position: fixed;          /* fija respecto a la ventana */
+  left: 88%;                /* centra horizontalmente */
+  transform: translateX(-50%);
+  bottom: 60px;            /* sube el botón aumentando este valor */
+  color: #fff;
+  border: 4px solid white;
+  border-radius: 18px;
+  padding: 20px 30px;
+  font-size: 26px;
+  font-family: 'Segoe UI', sans-serif;
+  width: 300px;
+  font-weight: 510;
+  background-color: #00458D;
+  margin: 0;                /* elimina márgenes previos */
+}
+.titulo img{
+display: block;
+margin: 0% auto;
+width: 900px;
+margin-top: 40px;
+}
+.titulo1{
+font-family: 'Orbitron', sans-serif;
+color: white;
+font-size: 32px;
+font-weight: 450;
+width: 1000px; 
+  white-space: normal; 
+  margin-left: 90px;
+  margin-top: 60px;
+    
+}
+
+.titulo2{
+color: white;
+font-family: 'Orbitron', sans-serif;
+font-size: 32px;
+font-weight: 450;
+width: 1100px; 
+  white-space: normal; 
+  margin-left: 90px;
+  margin-top: 70px;
+}
+
+.mano img{
+    width: 500px;
+    margin-top: 50px;
+    margin-left: 1000px;
+    margin-top: -550px;
+}
+
