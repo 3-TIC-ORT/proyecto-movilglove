@@ -117,11 +117,24 @@ margin-top: 2vh;
     width: 45vh;
     font-weight: 510;
     background-color: #00458D; 
-    position: relative;   /* permite mover el botón */
-    left: -5vh;          /* lo mueve 10vh hacia la izquierda */
+    position: relative;  
+    left: -5vh;          
     top: -3vh;
   }
   
 
 
+.anillotutorial img{
 
+  width: 450%;
+margin-top: -90%;  
+margin-left: -180%;
+}
+
+.tutorialdedos{
+
+  width: 18%;
+  margin-top: -27%;
+  margin-left: 74%;
+
+}
