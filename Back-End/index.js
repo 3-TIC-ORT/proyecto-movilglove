@@ -17,17 +17,17 @@ let configuracionDedos = {};
 
 app.post("/guardarConfiguracion", (req, res) => {
   configuracionDedos = req.body;
-  console.log("🖐️ Nueva configuración recibida:", configuracionDedos);
+  console.log(" Nueva configuración recibida:", configuracionDedos);
 
 
   io.emit("configuracionActualizada", configuracionDedos);
 
-  res.json({ mensaje: "Configuración guardada correctamente ✅" });
+  res.json({ mensaje: "Configuración guardada correctamente " });
 });
 
 
 io.on("connection", (socket) => {
-  console.log("🧠 Cliente conectado:", socket.id);
+  console.log(" Cliente conectado:", socket.id);
 
 
   socket.emit("configuracionActualizada", configuracionDedos);
@@ -35,5 +35,5 @@ io.on("connection", (socket) => {
 
 const PORT = 3000;
 server.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+  console.log(` Servidor corriendo en http://localhost:${PORT}`);
 });

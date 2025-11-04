@@ -28,27 +28,32 @@ function togglePassword() {
 }
 
 
+
 connect2Server(3000);
 
-const inputUsuario = document.getElementById("usuario");
-const inputContraseña = document.getElementById("contraseña");
-const btnLogin = document.getElementById("iniciocesion");
 
-btnLogin.addEventListener("click", () => {
-  const usuario = inputUsuario.value.trim();
-  const contraseña = inputContraseña.value.trim();
+function iniciarSesion(usuario, contraseña) {
+  postEvent("login", { usuario, contraseña }, (resp) => {
+    alert(resp.msg);
 
-  if (!usuario || !contraseña) {
-    alert("Por favor completá todos los campos");
-    return;
-  }
-
-  postEvent("login", { usuario, contraseña }, (respuesta) => {
-    alert(respuesta);
-
-    if (respuesta === "Inicio de sesión correcto") {
-  
+    if (resp.success) {
       window.location.href = "../Configuracion/contra.html";
     }
   });
+}
+
+
+const inputUsuario = document.getElementById("usuario");
+const inputContraseña = document.getElementById("contrasena");
+const btnIniciar = document.getElementById("iniciar");
+
+btnIniciar.addEventListener("click", () => {
+  const usuario = inputUsuario.value.trim();
+  const contraseña = inputContraseña.value.trim();
+
+  if (usuario && contraseña) {
+    iniciarSesion(usuario, contraseña);
+  } else {
+    alert("Por favor completá todos los campos");
+  }
 });

@@ -9,9 +9,7 @@
     <title>Document</title>
 </head>
 <body>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/JZylber/SoqueTIC-Client@v1.4.2/soquetic-client.js"></script>  
-  <script src="registro.js"></script>
+  
 
   
 
@@ -22,15 +20,18 @@
       <input id="usuario"type="text" placeholder="Usuario">
       <div class="campo">
           <input id="contrasena" type="password" placeholder="Contraseña">
-          <button type="button" class="ojo" onclick="togglePassword()">
-            <i id="iconoOjo" class="fa-solid fa-eye"></i>
+          <button type="button" id="ojo" onclick="togglePassword()">
+            <i id="iconoOjo" class="fa-solid fa-eye">      </i>
           </button>
 
       </div>
       
-      <button id="registro">SIGUIENTE</button>
+      <button onclick="window.location.href='../Configuracion/contra.html'" id="registro">SIGUIENTE</button>
 
     </div>
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/JZylber/SoqueTIC-Client@v1.4.2/soquetic-client.js"></script>  
+  <script src="registro.js"></script>
 </body>
 </html>

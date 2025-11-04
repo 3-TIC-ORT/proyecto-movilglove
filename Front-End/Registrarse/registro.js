@@ -1,10 +1,11 @@
+connect2Server();
+
 const input = document.getElementById("contrasena");
-const botonOjo = document.querySelector(".ojo");
+const botonOjo = document.querySelector("#ojo");
 const icono = document.getElementById("iconoOjo");
 
 
 botonOjo.style.display = "none";
-
 
 input.addEventListener("input", () => {
   if (input.value.length > 0) {
@@ -12,7 +13,7 @@ input.addEventListener("input", () => {
   } else {
     botonOjo.style.display = "none";
     input.type = "password";           
-    icono.classList.remove("fa-eye-slash");
+    icono.classList.remove("fa-eye-slash"); 
     icono.classList.add("fa-eye");
   }
 });
@@ -28,33 +29,33 @@ function togglePassword() {
     icono.classList.remove("fa-eye-slash");
     icono.classList.add("fa-eye");       
   }
-}
+} 
 
-let andrea = document.getElementById("registro");
+  
 
-
-
-connect2Server(3000);
-
-
-function registrarUsuario(usuario, contraseña) {
+function registrarse(usuario, contraseña) {
   postEvent("register", { usuario, contraseña }, (resp) => {
-    alert(resp.msg); 
+    alert(resp.msg);
+    if (resp.success) {
+      window.location.href = "../Configuracion/contra.html";
+    }
   });
 }
 
 const inputUsuario = document.getElementById("usuario");
 const inputContraseña = document.getElementById("contrasena");
-const btnRegistrar = document.getElementById("registro");
+const btnRegistro = document.getElementById("registro");
 
-btnRegistrar.addEventListener("click", () => {
+btnRegistro.addEventListener("click", (event) => {
+  event.preventDefault
+  console.log("register")
   const usuario = inputUsuario.value.trim();
   const contraseña = inputContraseña.value.trim();
+
   if (usuario && contraseña) {
-    registrarUsuario(usuario, contraseña);
+    registrarse(usuario, contraseña);
     inputUsuario.value = "";
     inputContraseña.value = "";
-    console.log("este es el usuario:",usuario)
   } else {
     alert("Por favor completá todos los campos");
   }
