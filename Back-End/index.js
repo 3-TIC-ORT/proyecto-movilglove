@@ -12,24 +12,24 @@ const io = new Server(server, {
 app.use(cors());
 app.use(express.json());
 
-let configuracionDedos = {}; // acá se guardará la configuración enviada desde el front
+let configuracionDedos = {};
 
-// Endpoint para guardar configuración
+
 app.post("/guardarConfiguracion", (req, res) => {
   configuracionDedos = req.body;
   console.log("🖐️ Nueva configuración recibida:", configuracionDedos);
 
-  // Enviar a todos los clientes conectados por socket
+
   io.emit("configuracionActualizada", configuracionDedos);
 
   res.json({ mensaje: "Configuración guardada correctamente ✅" });
 });
 
-// Socket: conexión en tiempo real
+
 io.on("connection", (socket) => {
   console.log("🧠 Cliente conectado:", socket.id);
 
-  // Enviar configuración actual al cliente nuevo
+
   socket.emit("configuracionActualizada", configuracionDedos);
 });
 
