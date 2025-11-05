@@ -1,39 +1,32 @@
-import express from "express";
-import http from "http";
-import { Server } from "socket.io";
-import cors from "cors";
+import fs from "fs";
+import { subscribePOSTEvent, startServer } from "soquetic";
+import { SerialPort } from "serialport";
 
-const app = express();
-const server = http.createServer(app);
-const io = new Server(server, {
-  cors: { origin: "*" }
+const puerto = new SerialPort({ path: "COM3", baudRate: 9600 });
+
+subscribePOSTEvent("guardarMovimientos", (data) => {
+  try {
+
+    const movimientos = {
+      indice: data.indice || "",
+      medio: data.medio || "",
+      anular: data.anular || "",
+      meñique: data.meñique || ""
+    };
+
+    fs.writeFileSync("movimientos.json", JSON.stringify(movimientos, null, 2), "utf-8");
+    console.log(" Movimientos guardados:", movimientos);
+
+    puerto.write(JSON.stringify(movimientos) + "\n");
+    console.log(" Datos enviados al Arduino");
+
+    return { success: true, msg: "Configuración guardada correctamente" };
+
+  } catch (error) {
+    console.error(" Error al guardar movimientos:", error);
+    return { success: false, msg: "Error al guardar la configuración" };
+  }
 });
 
-app.use(cors());
-app.use(express.json());
-
-let configuracionDedos = {};
-
-
-app.post("/guardarConfiguracion", (req, res) => {
-  configuracionDedos = req.body;
-  console.log(" Nueva configuración recibida:", configuracionDedos);
-
-
-  io.emit("configuracionActualizada", configuracionDedos);
-
-  res.json({ mensaje: "Configuración guardada correctamente " });
-});
-
-
-io.on("connection", (socket) => {
-  console.log(" Cliente conectado:", socket.id);
-
-
-  socket.emit("configuracionActualizada", configuracionDedos);
-});
-
-const PORT = 3000;
-server.listen(PORT, () => {
-  console.log(` Servidor corriendo en http://localhost:${PORT}`);
-});
+startServer(3000, true);
+console.log("Servidor iniciado en el puerto 3000 y conectado al Arduino en COM3");
