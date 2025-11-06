@@ -1,4 +1,3 @@
-
 connect2Server(3000);
 
 
@@ -12,10 +11,13 @@ const btnGuardar = document.getElementById("guardar");
 
 btnGuardar.addEventListener("click", () => {
   const configuracion = {
+    usuario: localStorage["usuario"],
+    moivimientos: {
     indice: selectIndice.value,
     medio: selectMedio.value,
     anular: selectAnular.value,
     menique: selectMenique.value
+    }
   };
 
 
@@ -36,7 +38,7 @@ btnGuardar.addEventListener("click", () => {
 });
 
 
-const socket = io();
+//const socket = io();
 
 
 const indice = document.getElementById("indice");
@@ -53,7 +55,7 @@ btnEnviarConfig.addEventListener("click", () => {
     meñique: meñique.value,
   };
 
-  socket.emit("enviarConfiguracion", configuracion);
+  //socket.emit("enviarConfiguracion", configuracion);
   alert("Configuración enviada al Arduino ");
 });
 

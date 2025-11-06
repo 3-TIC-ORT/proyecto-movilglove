@@ -16,10 +16,10 @@ function togglePassword() {
   }
 }
 
-// 🔗 Conectamos al servidor
+
 connect2Server(3000);
 
-// 🧩 Función principal de inicio de sesión
+
 function iniciarSesion(usuario, contraseña) {
   postEvent("login", { usuario, contraseña }, (resp) => {
     try {
@@ -30,22 +30,23 @@ function iniciarSesion(usuario, contraseña) {
       return;
     }
 
-    // ✅ Mostramos el mensaje que viene del servidor
+
     alert(resp.msg);
 
-    // 🚀 Si el inicio fue correcto, redirige al archivo de configuración
+    
     if (resp.success) {
+      localStorage.setItem("usuario", usuario);
       window.location.href = "../Configuracion/contra.html";
     }
   });
 }
 
-// 📋 Elementos del formulario
+
 const inputUsuario = document.getElementById("usuario");
 const inputContraseña = document.getElementById("contrasena");
 const btnIniciar = document.getElementById("iniciocesion");
 
-// 🧠 Evento del botón
+
 btnIniciar.addEventListener("click", () => {
   const usuario = inputUsuario.value.trim();
   const contraseña = inputContraseña.value.trim();

@@ -1,7 +1,9 @@
 {
-    "indice": "",
-    "medio": "",
-    "anular": "",
-    "meñique": ""
+  "usuario": "hola",
+  "moivimientos": {
+    "indice": "Retroceder",
+    "medio": "Avanzar",
+    "anular": "Derecha",
+    "menique": "Izquierda"
   }
-  
+}
