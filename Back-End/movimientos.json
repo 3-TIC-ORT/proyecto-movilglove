@@ -16,5 +16,41 @@
       "anular": "Izquierda",
       "menique": "Derecha"
     }
+  },
+  {
+    "usuario": "Shulian",
+    "moivimientos": {
+      "indice": "Izquierda",
+      "medio": "Avanzar",
+      "anular": "Derecha",
+      "menique": "Retroceder"
+    }
+  },
+  {
+    "usuario": "Lenny",
+    "moivimientos": {
+      "indice": "Izquierda",
+      "medio": "Avanzar",
+      "anular": "Derecha",
+      "menique": "Retroceder"
+    }
+  },
+  {
+    "usuario": "Lenny",
+    "moivimientos": {
+      "indice": "Izquierda",
+      "medio": "Avanzar",
+      "anular": "Derecha",
+      "menique": "Retroceder"
+    }
+  },
+  {
+    "usuario": "tania",
+    "moivimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Izquierda",
+      "menique": "Derecha"
+    }
   }
 ]

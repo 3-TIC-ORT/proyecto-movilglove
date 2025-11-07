@@ -37,8 +37,9 @@ function registrarse(usuario, contraseña) {
   postEvent("register", { usuario, contraseña }, (resp) => {
     alert(resp.msg);
     if (resp.success) {
+      localStorage.setItem("usuario", usuario); 
       window.location.href = "../Configuracion/contra.html";
-    }
+    }    
   });
 }
 
