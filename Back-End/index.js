@@ -4,12 +4,24 @@ import { SerialPort } from "serialport";
 
 // const puerto = new SerialPort({ path: "COM3", baudRate: 9600 });
 
-export function guardarMovimientos (data){
-
-
+export function guardarMovimientos(data) {
   try {
+    let movimientos = [];
 
-    fs.writeFileSync("movimientos.json", JSON.stringify(data, null, 2), "utf-8");
+    if (fs.existsSync("movimientos.json")) {
+      const contenido = fs.readFileSync("movimientos.json", "utf-8");
+      if (contenido.trim() !== "") {
+        movimientos = JSON.parse(contenido);
+      }
+    }
+
+    if (!Array.isArray(movimientos)) {
+      movimientos = [movimientos];
+    }
+
+    movimientos.push(data);
+
+    fs.writeFileSync("movimientos.json", JSON.stringify(movimientos, null, 2), "utf-8");
     console.log(" Movimientos guardados:", data);
 
   //  puerto.write(JSON.stringify(movimientos) + "\n");
@@ -22,5 +34,3 @@ export function guardarMovimientos (data){
     return { success: false, msg: "Error al guardar la configuración" };
   }
 };
-
-

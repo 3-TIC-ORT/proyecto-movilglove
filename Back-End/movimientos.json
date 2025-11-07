@@ -1,9 +1,20 @@
-{
-  "usuario": "hola",
-  "moivimientos": {
-    "indice": "Retroceder",
-    "medio": "Avanzar",
-    "anular": "Derecha",
-    "menique": "Izquierda"
+[
+  {
+    "usuario": "hola",
+    "moivimientos": {
+      "indice": "Retroceder",
+      "medio": "Avanzar",
+      "anular": "Izquierda",
+      "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "Shulian",
+    "moivimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Izquierda",
+      "menique": "Derecha"
+    }
   }
-}
+]
