@@ -30,3 +30,12 @@ Problema 6: Tinkercad simula mal nuestro circuito (por mas raro que suene)
 Problema 7: El proveedor tiene problemas con nuestros sensores
 
     El 29/10 Dario (coordinador del area) nos dijo que a pesar de que el pedido de los sensores había salido de la escuela al proveedor, este entregó todo el material excepto nuestros sensores en si. Según él, no es un problema de gestión del colegio sino que se debe a un error del proveedor que aun no a dado explicación. En consecuencia nos atrasaran la fecha de entrega del proyecto a una fecha aun por determinar.  
+
+Problema 8: ¡Habíamos medido mal!
+    Los sensores finalmente llegaron, pero mientras estaban siendo instalados nos dimos cuenta de que las proporciones de la caja del auto estaban mal, y las  ruedas estaban demasiado altas. Ya se modeló una 
+    nueva caja y se va a enviar a cortar por laser
+
+Problema 9: Los sensores no registran lectura
+    Los sensores están programados e instalados, pero al momento de imprimir los valores de flexión estos
+    solo dan 54, no varían con la flexión. Sospechamos que es por como está hecho el divisor de tensión,
+    quizas las resistencias fijas que estamos usando son demasiado pequeñas o grandes.
