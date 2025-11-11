@@ -199,6 +199,10 @@ void loop () {
   }
 
   //movimiento de motores:
+  //Lo que se va a hacer es mover las ruedas de una u otra forma dependiendo de la orden que llegue
+  //desde una computadora por el puerto serie. Cada orden tiene un nombre como "adelante" o 
+  //"Derecha"
+  
   if (Serial.available () > 0) {
     orden = Serial.readString();
     if (orden == "Adelante") { //los motores tienen que ir a contra-reloj
@@ -261,3 +265,6 @@ void loop () {
   delay(100);
   
 }
+//Soy el encargado de escribir este codigo 1 mes luego de haberlo hecho. Recién hoy pude ver si es correcto
+//o no... No registra una lectura coherente. ni siquiera se si es un problema de codigo o de hardware,
+//lo que si se es que ya ni yo entiendo lo que mi programa hace
