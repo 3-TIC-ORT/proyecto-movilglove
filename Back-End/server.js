@@ -1,22 +1,54 @@
-import { SerialPort } from 'serialport';
+import { SerialPort, ReadlineParser } from "serialport";
+import fs from "fs";
 
-import { subscribePOSTEvent, startServer } from 'soquetic';
+const puerto = new SerialPort({ path: "COM3", baudRate: 9600 });
+const parser = puerto.pipe(new ReadlineParser({ delimiter: "\n" }));
 
+console.log("Servidor de hardware iniciado. Esperando datos del Arduino...");
 
-const puerto = new SerialPort({ path: 'COM6', baudRate: 9600 });
-
-
-subscribePOSTEvent('guardarConfiguracion', (data) => {
-  console.log('Configuración recibida:', data);
-  
-  puerto.write(data, (err) => {
-    if (err) {
-      console.log('Error al enviar datos al Arduino:', err.message);
+function cargarMovimientos() {
+  try {
+    const contenido = fs.readFileSync("movimientos.json", "utf-8");
+    if (contenido.trim() !== "") {
+      return JSON.parse(contenido);
     } else {
-      console.log('Datos enviados al Arduino correctamente.');
+      return [];
     }
-  });
+  } catch {
+    console.log("No se encontró movimientos.json o está vacío.");
+    return [];
+  }
+}
+
+parser.on("data", (data) => {
+  data = data.trim();
+  console.log("Dato recibido del Arduino:", data);
+
+  const partes = data.split(":");
+  const dedo = partes[0];
+  const valor = parseInt(partes[1]);
+
+  const movimientos = cargarMovimientos();
+  const configuracion = movimientos.find((m) => m.dedo === dedo);
+
+  if (configuracion) {
+    let accion = configuracion.accion;
+    if (valor > 300) {
+      puerto.write(accion + "\n", (err) => {
+        if (err) {
+          console.error("Error al enviar al Arduino:", err.message);
+        } else {
+          console.log("Acción enviada al Arduino:", accion);
+        }
+      });
+    } else {
+      console.log("Dedo no lo suficientemente flexionado.");
+    }
+  } else {
+    console.log("No hay acción configurada para este dedo.");
+  }
 });
 
-
-startServer(3000, true);
+puerto.on("error", (err) => {
+  console.error("Error en el puerto serial:", err.message);
+});
