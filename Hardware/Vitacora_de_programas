@@ -151,33 +151,36 @@ int dedo2 = 0;
 int dedo3 = 0;
 int dedo4 = 0;
 
+int max = 0;
+int min = 1023;
+
 String orden = "";
  // los flex sensors dan valores entre 535 y 565, asi que vamos a crear una función  que los convierta
  //en porcentaje
 
 int conversor1 (int Valor) {
-  int respuesta = map(Valor, 535, 565, 0, 100);
+  int respuesta = map(Valor, min, max, 0, 100);
   Serial.print ("dedo menique:");
   Serial.println(respuesta);
   return respuesta;
 }
 
 int conversor2 (int Valor) {
-  int respuesta = map(Valor, 535, 565, 0, 100);
+  int respuesta = map(Valor, min, max, 0, 100);
   Serial.print ("dedo anular:");
   Serial.println(respuesta);
   return respuesta;
 }
 
 int conversor3 (int Valor) {
-  int respuesta = map(Valor, 535, 565, 0, 100);
+  int respuesta = map(Valor, min, max, 0, 100);
   Serial.print ("dedo mayor:");
   Serial.println(respuesta);
   return respuesta;
 }
 
 int conversor4 (int Valor) {
-  int respuesta = map(Valor, 535, 565, 0, 100);
+  int respuesta = map(Valor, min, max, 0, 100);
   Serial.print ("dedo indice:");
   Serial.println(respuesta);
   return respuesta;
@@ -202,12 +205,25 @@ void setup () {
 void loop () {
   //detección de dedos:
 
-  //los dedos envian por puerto analogico un valor, en cuanto mas alto, mas flexionado el dedo
-  //vamos a enviar esos datos al back end quien tiene que interpretarlos y enviar la "orden"
   dedo1 = analogRead(sens1);
   dedo2 = analogRead(sens2);
   dedo3 = analogRead(sens3);
   dedo4 = analogRead(sens4);
+  
+//las variables min y max estan ahí porque cada vez que se conecta el sensor otra vez da un rango de valores
+//distinto, entonces cada vez que podemos comprobamos esos valores y los usamos para mapear un porcentaje
+//de flexión, por ende el input puede ser siempre distinto pero el output siempre va a ser de 0 a 100 
+
+ if (dedo1 > max) {
+   max = dedo1;
+ }
+
+ if (dedo1 < min) {
+   min = dedo1;
+ }
+
+  //los dedos envian por puerto analogico un valor, en cuanto mas alto, mas flexionado el dedo
+  //vamos a enviar esos datos al back end quien tiene que interpretarlos y enviar la "orden"
   if(dedo1 > 0) {
     conversor1(dedo1);
   }
