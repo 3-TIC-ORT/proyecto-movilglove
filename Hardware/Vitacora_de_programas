@@ -152,6 +152,36 @@ int dedo3 = 0;
 int dedo4 = 0;
 
 String orden = "";
+ // los flex sensors dan valores entre 535 y 565, asi que vamos a crear una función  que los convierta
+ //en porcentaje
+
+int conversor1 (int Valor) {
+  int respuesta = map(Valor, 535, 565, 0, 100);
+  Serial.print ("dedo menique:");
+  Serial.println(respuesta);
+  return respuesta;
+}
+
+int conversor2 (int Valor) {
+  int respuesta = map(Valor, 535, 565, 0, 100);
+  Serial.print ("dedo anular:");
+  Serial.println(respuesta);
+  return respuesta;
+}
+
+int conversor3 (int Valor) {
+  int respuesta = map(Valor, 535, 565, 0, 100);
+  Serial.print ("dedo mayor:");
+  Serial.println(respuesta);
+  return respuesta;
+}
+
+int conversor4 (int Valor) {
+  int respuesta = map(Valor, 535, 565, 0, 100);
+  Serial.print ("dedo indice:");
+  Serial.println(respuesta);
+  return respuesta;
+}
 
 void setup () {
  //movimiento de motor
@@ -179,23 +209,19 @@ void loop () {
   dedo3 = analogRead(sens3);
   dedo4 = analogRead(sens4);
   if(dedo1 > 0) {
-    Serial.print("dedo menique = ");
-    Serial.println(dedo1);
+    conversor1(dedo1);
   }
 
   if(dedo2 > 0) {
-    Serial.print("dedo anular = "); 
-    Serial.println(dedo2);
+    conversor2(dedo2);
   }
 
   if(dedo3 > 0) {
-    Serial.print("Dedo mayor = "); 
-    Serial.println(dedo3);
+    conversor3(dedo3);
   }
 
   if(dedo4 > 0) {
-    Serial.print("dedo indice = "); 
-    Serial.println(dedo4);
+    conversor4(dedo4);
   }
 
   //movimiento de motores:
