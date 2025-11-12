@@ -151,8 +151,8 @@ int dedo2 = 0;
 int dedo3 = 0;
 int dedo4 = 0;
 
-int max = 0;
-int min = 1023;
+long max = 0;
+long min = 1023;
 
 String orden = "";
  // los flex sensors dan valores entre 535 y 565, asi que vamos a crear una función  que los convierta
@@ -186,6 +186,8 @@ int conversor4 (int Valor) {
   return respuesta;
 }
 
+
+
 void setup () {
  //movimiento de motor
  pinMode(3, OUTPUT); 
@@ -200,10 +202,24 @@ void setup () {
  pinMode(sens2,INPUT);
  pinMode(sens3,INPUT);
  pinMode(sens4,INPUT);
+ calibrarSensor();
 }
 
 void loop () {
   //detección de dedos:
+
+//Calibrar los valores minimos y máximos:
+ if (dedo1 > max) {
+    max = (max * 9 + dedo1) / 10; 
+  } else {
+    max = (max * 99 + dedo1) / 100; 
+  }
+
+  if (dedo1 < min) {
+    min = (min * 9 + dedo1) / 10; 
+  } else {
+    min = (min * 99 + dedo1) / 100; 
+  }
 
   dedo1 = analogRead(sens1);
   dedo2 = analogRead(sens2);
@@ -213,14 +229,6 @@ void loop () {
 //las variables min y max estan ahí porque cada vez que se conecta el sensor otra vez da un rango de valores
 //distinto, entonces cada vez que podemos comprobamos esos valores y los usamos para mapear un porcentaje
 //de flexión, por ende el input puede ser siempre distinto pero el output siempre va a ser de 0 a 100 
-
- if (dedo1 > max) {
-   max = dedo1;
- }
-
- if (dedo1 < min) {
-   min = dedo1;
- }
 
   //los dedos envian por puerto analogico un valor, en cuanto mas alto, mas flexionado el dedo
   //vamos a enviar esos datos al back end quien tiene que interpretarlos y enviar la "orden"
