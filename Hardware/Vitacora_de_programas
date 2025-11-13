@@ -46,6 +46,7 @@ int boton1 = 0;
 int boton2 = 0;
 int boton3 = 0;
 int boton4 = 0;
+int respuesta = 0;
 #define ENA 9
 #define ENB 10
 #define IN1 3
@@ -159,28 +160,60 @@ String orden = "";
  //en porcentaje
 
 int conversor1 (int Valor) {
-  int respuesta = map(Valor, min, max, 0, 100);
+   respuesta = map(Valor, 470, 950, 0, 100);
+  
+  if (respuesta < 0) {
+    respuesta = 0;
+  }
+  if (respuesta > 100) {
+    respuesta = 100;
+  }
+
   Serial.print ("dedo menique:");
   Serial.println(respuesta);
   return respuesta;
 }
 
 int conversor2 (int Valor) {
-  int respuesta = map(Valor, min, max, 0, 100);
+   respuesta = map(Valor, 470, 950, 0, 100);
+  
+  if (respuesta < 0) {
+    respuesta = 0;
+  }
+  if (respuesta > 100) {
+    respuesta = 100;
+  }
+
   Serial.print ("dedo anular:");
   Serial.println(respuesta);
   return respuesta;
 }
 
 int conversor3 (int Valor) {
-  int respuesta = map(Valor, min, max, 0, 100);
+   respuesta = map(Valor, 470, 950, 0, 100);
+  
+  if (respuesta < 0) {
+    respuesta = 0;
+  }
+  if (respuesta > 100) {
+    respuesta = 100;
+  }
+
   Serial.print ("dedo mayor:");
   Serial.println(respuesta);
   return respuesta;
 }
 
 int conversor4 (int Valor) {
-  int respuesta = map(Valor, min, max, 0, 100);
+   respuesta = map(Valor, 470, 950, 0, 100);
+
+  if (respuesta < 0) {
+    respuesta = 0;
+  }
+  if (respuesta > 100) {
+    respuesta = 100;
+  }
+
   Serial.print ("dedo indice:");
   Serial.println(respuesta);
   return respuesta;
@@ -202,24 +235,13 @@ void setup () {
  pinMode(sens2,INPUT);
  pinMode(sens3,INPUT);
  pinMode(sens4,INPUT);
- calibrarSensor();
+
 }
 
 void loop () {
   //detección de dedos:
 
-//Calibrar los valores minimos y máximos:
- if (dedo1 > max) {
-    max = (max * 9 + dedo1) / 10; 
-  } else {
-    max = (max * 99 + dedo1) / 100; 
-  }
 
-  if (dedo1 < min) {
-    min = (min * 9 + dedo1) / 10; 
-  } else {
-    min = (min * 99 + dedo1) / 100; 
-  }
 
   dedo1 = analogRead(sens1);
   dedo2 = analogRead(sens2);
@@ -313,7 +335,6 @@ void loop () {
     
   }
   delay(100);
-  
 }
 //Soy el encargado de escribir este codigo 1 mes luego de haberlo hecho. Recién hoy pude ver si es correcto
 //o no... No registra una lectura coherente. ni siquiera se si es un problema de codigo o de hardware,
