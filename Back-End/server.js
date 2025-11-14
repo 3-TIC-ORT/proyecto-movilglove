@@ -4,48 +4,67 @@ import fs from "fs";
 const puerto = new SerialPort({ path: "COM3", baudRate: 9600 });
 const parser = puerto.pipe(new ReadlineParser({ delimiter: "\n" }));
 
-console.log("Servidor de hardware iniciado. Esperando datos del Arduino...");
+console.log("Servidor de hardware iniciado. Esperando datos...");
+
+let buffer = {
+  indice: null,
+  medio: null,
+  anular: null,
+  meñique: null
+};
 
 function cargarMovimientos() {
   try {
     const contenido = fs.readFileSync("movimientos.json", "utf-8");
-    if (contenido.trim() !== "") {
-      return JSON.parse(contenido);
-    } else {
-      return [];
-    }
+    if (contenido.trim() !== "") return JSON.parse(contenido);
+    return [];
   } catch {
-    console.log("No se encontró movimientos.json o está vacío.");
     return [];
   }
 }
 
 parser.on("data", (data) => {
   data = data.trim();
-  console.log("Dato recibido del Arduino:", data);
-
   const partes = data.split(":");
-  const dedo = partes[0];
+  const dedo = partes[0].toLowerCase();
   const valor = parseInt(partes[1]);
 
-  const movimientos = cargarMovimientos();
-  const configuracion = movimientos.find((m) => m.dedo === dedo);
+  if (buffer.hasOwnProperty(dedo)) {
+    buffer[dedo] = valor;
+  }
 
-  if (configuracion) {
-    let accion = configuracion.accion;
-    if (valor > 300) {
-      puerto.write(accion + "\n", (err) => {
-        if (err) {
-          console.error("Error al enviar al Arduino:", err.message);
-        } else {
-          console.log("Acción enviada al Arduino:", accion);
-        }
-      });
+  const completo =
+    buffer.indice !== null &&
+    buffer.medio !== null &&
+    buffer.anular !== null &&
+    buffer.meñique !== null;
+
+  if (completo) {
+    let dedoFlexionado = null;
+
+    if (buffer.indice > 50) dedoFlexionado = "indice";
+    if (buffer.medio > 50) dedoFlexionado = "medio";
+    if (buffer.anular > 50) dedoFlexionado = "anular";
+    if (buffer.meñique > 50) dedoFlexionado = "meñique";
+
+    if (dedoFlexionado) {
+      const movimientos = cargarMovimientos();
+      const config = movimientos.find((m) => m.dedo === dedoFlexionado);
+
+      if (config) {
+        puerto.write(config.accion + "\n");
+        console.log("Acción enviada:", config.accion);
+      } else {
+        console.log("No hay acción configurada para:", dedoFlexionado);
+      }
     } else {
-      console.log("Dedo no lo suficientemente flexionado.");
+      console.log("Ningún dedo flexionado.");
     }
-  } else {
-    console.log("No hay acción configurada para este dedo.");
+
+    buffer.indice = null;
+    buffer.medio = null;
+    buffer.anular = null;
+    buffer.meñique = null;
   }
 });
 
