@@ -1,34 +1,95 @@
+import { SerialPort, ReadlineParser } from "serialport";
 import fs from "fs";
 
-export function iniciodesesion(data) {
-  let conectar = JSON.parse(fs.readFileSync("usuario.json", "utf-8"));
-  const user = conectar.find(u => u.usuario === data.usuario);
+const puerto = new SerialPort({ path: "COM3", baudRate: 9600 });
+const parser = puerto.pipe(new ReadlineParser({ delimiter: "\n" }));
 
-  if (!user) {
-    return { success: false, msg: "El nombre de usuario no existe" };
-  }
+console.log("Servidor de hardware iniciado. Esperando datos...");
 
-  if (user.contraseña === data.contraseña) {
-    return { success: true, msg: "Bienvenido a Mobile Glove" };
-  } else {
-    return { success: false, msg: "Contraseña incorrecta" };
+const usuarioActual = "Lenny";
+
+function cargarMovimientosDeUsuario() {
+  try {
+    const contenido = fs.readFileSync("movimientos.json", "utf-8");
+    const lista = JSON.parse(contenido);
+
+    return lista.find((u) => u.usuario === usuarioActual);
+  } catch {
+    return null;
   }
 }
 
-export function registrarse(data) {
-  let conectar = JSON.parse(fs.readFileSync("usuario.json", "utf-8"));
+// --------------------------
+//  BUFFER TEMPORAL
+// --------------------------
+let buffer = {
+  indice: null,
+  medio: null,
+  anular: null,
+  menique: null,
+};
 
-  const existe = conectar.find(u => u.usuario === data.usuario);
-  if (existe) {
-    return { success: false, msg: "El usuario ya existe" };
+// --------------------------
+//  LECTURA SERIAL
+// --------------------------
+parser.on("data", (data) => {
+  data = data.trim();
+
+  const [dedo, valor] = data.split(":");
+  const dedoLower = dedo.toLowerCase();
+  const numero = parseInt(valor);
+
+  if (buffer.hasOwnProperty(dedoLower)) {
+    buffer[dedoLower] = numero;
   }
 
-  const nuevoUsuario = {"usuario": data.usuario, "contraseña": data.contraseña };
-  conectar.push(nuevoUsuario);
+  const completo =
+    buffer.indice !== null &&
+    buffer.medio !== null &&
+    buffer.anular !== null &&
+    buffer.menique !== null;
 
-  fs.writeFileSync("usuario.json", JSON.stringify(conectar, null, 2), "utf-8");
+  if (completo) {
+    let dedoFlexionado = null;
 
-  return { success: true, msg: "Usuario registrado correctamente" };
-}
+    if (buffer.indice > 50) dedoFlexionado = "indice";
+    if (buffer.medio > 50) dedoFlexionado = "medio";
+    if (buffer.anular > 50) dedoFlexionado = "anular";
+    if (buffer.menique > 50) dedoFlexionado = "menique";
 
-     
+    const usuarioConfig = cargarMovimientosDeUsuario();
+
+    if (!usuarioConfig) {
+      console.log("❌ Usuario no encontrado en movimientos.json");
+      return;
+    }
+
+    const movimientos = usuarioConfig.movimientos;
+
+    if (dedoFlexionado) {
+      const accion = movimientos[dedoFlexionado];
+
+      if (accion) {
+        puerto.write(accion + "\n");
+        console.log("✔ Acción enviada:", accion);
+      } else {
+        console.log("❌ No hay acción para ese dedo en este usuario.");
+      }
+    } else {
+      console.log("Ningún dedo flexionado.");
+    }
+
+    // Reiniciar buffer
+    buffer = {
+      indice: null,
+      medio: null,
+      anular: null,
+      menique: null,
+    };
+  }
+});
+
+
+puerto.on("error", (err) => {
+  console.error("Error en el puerto serial:", err.message);
+});

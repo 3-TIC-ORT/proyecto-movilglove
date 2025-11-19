@@ -8,9 +8,9 @@
       "menique": "Derecha"
     }
   },
-  {
+  { 
     "usuario": "Shulian",
-    "moivimientos": {
+    "movimientos": {
       "indice": "Avanzar",
       "medio": "Retroceder",
       "anular": "Izquierda",
@@ -19,7 +19,7 @@
   },
   {
     "usuario": "Shulian",
-    "moivimientos": {
+    "movimientos": {
       "indice": "Izquierda",
       "medio": "Avanzar",
       "anular": "Derecha",
@@ -28,7 +28,7 @@
   },
   {
     "usuario": "Lenny",
-    "moivimientos": {
+    "movimientos": {
       "indice": "Izquierda",
       "medio": "Avanzar",
       "anular": "Derecha",
@@ -37,7 +37,7 @@
   },
   {
     "usuario": "Lenny",
-    "moivimientos": {
+    "movimientos": {
       "indice": "Izquierda",
       "medio": "Avanzar",
       "anular": "Derecha",
@@ -46,7 +46,7 @@
   },
   {
     "usuario": "tania",
-    "moivimientos": {
+    "movimientos": {
       "indice": "Avanzar",
       "medio": "Retroceder",
       "anular": "Izquierda",
