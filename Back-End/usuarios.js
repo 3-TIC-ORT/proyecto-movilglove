@@ -9,7 +9,7 @@ export function iniciodesesion(data) {
   }
 
   if (user.contraseña === data.contraseña) {
-    return { success: true, msg: "Inicio de sesión correcto" };
+    return { success: true, msg: "Bienvenido a Mobile Glove" };
   } else {
     return { success: false, msg: "Contraseña incorrecta" };
   }
