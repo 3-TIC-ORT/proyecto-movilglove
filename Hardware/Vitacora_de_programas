@@ -154,6 +154,7 @@ int dedo4 = 0;
 
 long max = 0;
 long min = 1023;
+int respuesta = 0;
 
 String orden = "";
  // los flex sensors dan valores entre 535 y 565, asi que vamos a crear una función  que los convierta

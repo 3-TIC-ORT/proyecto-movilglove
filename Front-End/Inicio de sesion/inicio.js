@@ -45,3 +45,5 @@ btnIniciar.addEventListener("click", () => {
     alert("Por favor completá todos los campos");
   }
 });
+
+postEvent("actualizarUsuarioActual", { usuario });
