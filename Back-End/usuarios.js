@@ -1,95 +1,48 @@
-import { SerialPort, ReadlineParser } from "serialport";
 import fs from "fs";
+import { subscribePOSTEvent, startServer } from "soquetic";
 
-const puerto = new SerialPort({ path: "COM3", baudRate: 9600 });
-const parser = puerto.pipe(new ReadlineParser({ delimiter: "\n" }));
+function iniciodesesion(usuario, contraseña) {
+  let conectar = JSON.parse(fs.readFileSync("usuario.json", "utf-8"));
+  const user = conectar.find(u => u.usuario === usuario);
 
-console.log("Servidor de hardware iniciado. Esperando datos...");
+  if (!user) {
+    return JSON.stringify({ success: false, msg: "El nombre de usuario no existe" });
+    return { success: false, msg: "El nombre de usuario no existe" };
+  }
 
-const usuarioActual = "Lenny";
-
-function cargarMovimientosDeUsuario() {
-  try {
-    const contenido = fs.readFileSync("movimientos.json", "utf-8");
-    const lista = JSON.parse(contenido);
-
-    return lista.find((u) => u.usuario === usuarioActual);
-  } catch {
-    return null;
+  if (user.contraseña === contraseña) {
+    return JSON.stringify({ success: true, msg: "Inicio de sesión correcto" });
+    return { success: true, msg: "Inicio de sesión correcto" };
+  } else {
+    return JSON.stringify({ success: false, msg: "Contraseña incorrecta" });
+    return { success: false, msg: "Contraseña incorrecta" };
   }
 }
 
-// --------------------------
-//  BUFFER TEMPORAL
-// --------------------------
-let buffer = {
-  indice: null,
-  medio: null,
-  anular: null,
-  menique: null,
-};
 
-// --------------------------
-//  LECTURA SERIAL
-// --------------------------
-parser.on("data", (data) => {
-  data = data.trim();
-
-  const [dedo, valor] = data.split(":");
-  const dedoLower = dedo.toLowerCase();
-  const numero = parseInt(valor);
-
-  if (buffer.hasOwnProperty(dedoLower)) {
-    buffer[dedoLower] = numero;
+function registrarse(usuario, contraseña) {
+  const existe = conectar.find(u => u.usuario === usuario);
+  if (existe) {
+    return JSON.stringify({ success: false, msg: "El usuario ya existe" });
+    return { success: false, msg: "El usuario ya existe" };
   }
 
-  const completo =
-    buffer.indice !== null &&
-    buffer.medio !== null &&
-    buffer.anular !== null &&
-    buffer.menique !== null;
+  const nuevoUsuario = { usuario, contraseña };
+  conectar.push(nuevoUsuario);
 
-  if (completo) {
-    let dedoFlexionado = null;
+  fs.writeFileSync("usuario.json", JSON.stringify(conectar, null, 2), "utf-8");
 
-    if (buffer.indice > 50) dedoFlexionado = "indice";
-    if (buffer.medio > 50) dedoFlexionado = "medio";
-    if (buffer.anular > 50) dedoFlexionado = "anular";
-    if (buffer.menique > 50) dedoFlexionado = "menique";
+  return JSON.stringify({ success: true, msg: "Usuario registrado correctamente" });
+  return { success: true, msg: "Usuario registrado correctamente" };
+}
 
-    const usuarioConfig = cargarMovimientosDeUsuario();
-
-    if (!usuarioConfig) {
-      console.log("❌ Usuario no encontrado en movimientos.json");
-      return;
-    }
-
-    const movimientos = usuarioConfig.movimientos;
-
-    if (dedoFlexionado) {
-      const accion = movimientos[dedoFlexionado];
-
-      if (accion) {
-        puerto.write(accion + "\n");
-        console.log("✔ Acción enviada:", accion);
-      } else {
-        console.log("❌ No hay acción para ese dedo en este usuario.");
-      }
-    } else {
-      console.log("Ningún dedo flexionado.");
-    }
-
-    // Reiniciar buffer
-    buffer = {
-      indice: null,
-      medio: null,
-      anular: null,
-      menique: null,
-    };
-  }
+subscribePOSTEvent("login", (data) => {
+  return iniciodesesion(data.usuario, data.contraseña);
 });
 
-
-puerto.on("error", (err) => {
-  console.error("Error en el puerto serial:", err.message);
+subscribePOSTEvent("register", (data) => {
+  console.log("register")
+  return registrarse(data.usuario, data.contraseña);
 });
+
+startServer(3000, true);
