@@ -2,7 +2,7 @@ import fs from "fs";
 import { subscribePOSTEvent, startServer } from "soquetic";
 import { SerialPort } from "serialport";
 
-// const puerto = new SerialPort({ path: "COM3", baudRate: 9600 });
+ const puerto = new SerialPort({ path: "COM3", baudRate: 9600 });
 
 export function guardarMovimientos(data) {
   try {
@@ -24,7 +24,7 @@ export function guardarMovimientos(data) {
     fs.writeFileSync("movimientos.json", JSON.stringify(movimientos, null, 2), "utf-8");
     console.log(" Movimientos guardados:", data);
 
-  //  puerto.write(JSON.stringify(movimientos) + "\n");
+   puerto.write(JSON.stringify(movimientos) + "\n");
     console.log(" Datos enviados al Arduino");
 
     return { success: true, msg: "Configuración guardada correctamente" };

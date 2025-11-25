@@ -7,8 +7,6 @@ const parser = puerto.pipe(new ReadlineParser({ delimiter: "\n" }));
 
 console.log(" Servidor de hardware iniciado. Esperando datos del Arduino...");
 
-
-
 let usuarioActual = null;
 
 subscribePOSTEvent("actualizarUsuarioActual", (data) => {
@@ -28,9 +26,7 @@ function cargarMovimientosDeUsuario(usuario) {
   }
 }
 
-
 subscribePOSTEvent("guardarConfiguracion", (data) => {
-
   if (!data.usuario) {
     return { success: false, msg: "No llegó el usuario desde el front" };
   }
@@ -47,7 +43,6 @@ subscribePOSTEvent("guardarConfiguracion", (data) => {
       movimientos = JSON.parse(contenido);
     }
   }
-
 
   const existente = movimientos.find((u) => u.usuario === data.usuario);
 
@@ -69,10 +64,10 @@ subscribePOSTEvent("guardarConfiguracion", (data) => {
 });
 
 
-
+// ✔ buffer corregido (incluye el dedo “mayor” en vez de “medio”)
 let buffer = {
   indice: null,
-  medio: null,
+  mayor: null,
   anular: null,
   menique: null,
 };
@@ -83,23 +78,20 @@ parser.on("data", (data) => {
   const [dedo, valor] = data.split(":");
   const dedoLimpio = dedo.replace("dedo ", "").trim().toLowerCase();
   const numero = parseInt(valor);
-  
-  console.log("Dedo: ");
-  console.log(dedoLimpio); 
-  console.log("Valor:");
-  console.log(numero);
-  
+
+  console.log("Dedo:", dedoLimpio);
+  console.log("Valor:", numero);
+
   if (buffer.hasOwnProperty(dedoLimpio)) {
     buffer[dedoLimpio] = numero;
   }
-  
 
-  console.log("buffer: ")
-  console.log(buffer)
+  console.log("buffer:", buffer);
 
+  // ✔ SOLO procesar si todos los dedos recibieron al menos un número
   const completo =
     buffer.indice !== null &&
-    buffer.medio !== null &&
+    buffer.mayor !== null &&
     buffer.anular !== null &&
     buffer.menique !== null;
 
@@ -113,7 +105,7 @@ parser.on("data", (data) => {
   const usuarioConfig = cargarMovimientosDeUsuario(usuarioActual);
 
   if (!usuarioConfig) {
-    console.log(" El usuario NO tiene movimientos configurados");
+    console.log("❗ El usuario NO tiene movimientos configurados");
     return;
   }
 
@@ -121,8 +113,9 @@ parser.on("data", (data) => {
 
   let dedoFlexionado = null;
 
+  // ✔ nombre corregido: “mayor”
   if (buffer.indice > 50) dedoFlexionado = "indice";
-  if (buffer.medio > 50) dedoFlexionado = "medio";
+  if (buffer.mayor > 50) dedoFlexionado = "mayor";
   if (buffer.anular > 50) dedoFlexionado = "anular";
   if (buffer.menique > 50) dedoFlexionado = "menique";
 
@@ -139,9 +132,10 @@ parser.on("data", (data) => {
     }
   }
 
+  // ✔ reiniciar buffer para la próxima lectura
   buffer = {
     indice: null,
-    medio: null,
+    mayor: null,
     anular: null,
     menique: null,
   };
