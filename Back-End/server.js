@@ -5,8 +5,11 @@ import { SerialPort, ReadlineParser } from "serialport";
 const puerto = new SerialPort({ path: "COM3", baudRate: 9600 });
 const parser = puerto.pipe(new ReadlineParser({ delimiter: "\n" }));
 
-console.log(" Servidor de hardware iniciado. Esperando datos del Arduino...");
+console.log("🔥 Servidor hardware iniciado. Esperando datos del Arduino...");
 
+// -------------------------------
+// USUARIO ACTUAL
+// -------------------------------
 let usuarioActual = null;
 
 subscribePOSTEvent("actualizarUsuarioActual", (data) => {
@@ -15,33 +18,31 @@ subscribePOSTEvent("actualizarUsuarioActual", (data) => {
   return { success: true };
 });
 
+// -------------------------------
+// CARGAR CONFIG DEL USUARIO
+// -------------------------------
 function cargarMovimientosDeUsuario(usuario) {
   try {
     const contenido = fs.readFileSync("movimientos.json", "utf-8");
     const lista = JSON.parse(contenido);
-
     return lista.find((u) => u.usuario === usuario);
   } catch {
     return null;
   }
 }
 
+// -------------------------------
+// GUARDAR CONFIGURACIÓN
+// -------------------------------
 subscribePOSTEvent("guardarConfiguracion", (data) => {
-  if (!data.usuario) {
-    return { success: false, msg: "No llegó el usuario desde el front" };
-  }
-
-  if (!data.movimientos) {
-    return { success: false, msg: "No llegaron los movimientos" };
-  }
+  if (!data.usuario) return { success: false, msg: "No llegó el usuario" };
+  if (!data.movimientos) return { success: false, msg: "No llegaron movimientos" };
 
   let movimientos = [];
 
   if (fs.existsSync("movimientos.json")) {
     const contenido = fs.readFileSync("movimientos.json", "utf-8");
-    if (contenido.trim() !== "") {
-      movimientos = JSON.parse(contenido);
-    }
+    if (contenido.trim() !== "") movimientos = JSON.parse(contenido);
   }
 
   const existente = movimientos.find((u) => u.usuario === data.usuario);
@@ -52,22 +53,32 @@ subscribePOSTEvent("guardarConfiguracion", (data) => {
     movimientos.push(data);
   }
 
-  fs.writeFileSync(
-    "movimientos.json",
-    JSON.stringify(movimientos, null, 2),
-    "utf-8"
-  );
+  fs.writeFileSync("movimientos.json", JSON.stringify(movimientos, null, 2));
 
   console.log("💾 Configuración guardada para:", data.usuario);
-
-  return { success: true, msg: "Configuración guardada correctamente" };
+  return { success: true, msg: "Guardado OK" };
 });
 
+// -------------------------------
+// ENVIAR MOVIMIENTO MANUAL AL ARDUINO
+// -------------------------------
+subscribePOSTEvent("enviarMovimiento", (data) => {
+  if (!data.mov) {
+    return { success: false, msg: "No llegó movimiento" };
+  }
 
-// ✔ buffer corregido (incluye el dedo “mayor” en vez de “medio”)
+  puerto.write(data.mov + "\n");
+  console.log("➡️ Enviado al Arduino:", data.mov);
+
+  return { success: true, msg: "Movimiento enviado al Arduino" };
+});
+
+// -------------------------------
+// BUFFER PARA DEDOS DEL GUANTE
+// -------------------------------
 let buffer = {
   indice: null,
-  mayor: null,
+  medio: null,   // ← acá corregido
   anular: null,
   menique: null,
 };
@@ -76,36 +87,34 @@ parser.on("data", (data) => {
   data = data.trim();
 
   const [dedo, valor] = data.split(":");
-  const dedoLimpio = dedo.replace("dedo ", "").trim().toLowerCase();
+  let dedoLimpio = dedo.replace("dedo ", "").trim().toLowerCase();
+
+  // Normalizar
+  if (dedoLimpio === "mayor") dedoLimpio = "medio";
+
   const numero = parseInt(valor);
 
-  console.log("Dedo:", dedoLimpio);
-  console.log("Valor:", numero);
+  if (buffer.hasOwnProperty(dedoLimpio)) buffer[dedoLimpio] = numero;
 
-  if (buffer.hasOwnProperty(dedoLimpio)) {
-    buffer[dedoLimpio] = numero;
-  }
-
-  console.log("buffer:", buffer);
-
-  // ✔ SOLO procesar si todos los dedos recibieron al menos un número
   const completo =
     buffer.indice !== null &&
-    buffer.mayor !== null &&
+    buffer.medio !== null &&
     buffer.anular !== null &&
     buffer.menique !== null;
 
   if (!completo) return;
 
   if (!usuarioActual) {
-    console.log("⚠ No hay usuario logueado, ignorando datos...");
+    console.log("⚠ No hay usuario logueado");
+    buffer = { indice: null, medio: null, anular: null, menique: null };
     return;
   }
 
   const usuarioConfig = cargarMovimientosDeUsuario(usuarioActual);
 
   if (!usuarioConfig) {
-    console.log("❗ El usuario NO tiene movimientos configurados");
+    console.log("❗ El usuario NO tiene configuraciones");
+    buffer = { indice: null, medio: null, anular: null, menique: null };
     return;
   }
 
@@ -113,37 +122,25 @@ parser.on("data", (data) => {
 
   let dedoFlexionado = null;
 
-  // ✔ nombre corregido: “mayor”
   if (buffer.indice > 50) dedoFlexionado = "indice";
-  if (buffer.mayor > 50) dedoFlexionado = "mayor";
+  if (buffer.medio > 50) dedoFlexionado = "medio";
   if (buffer.anular > 50) dedoFlexionado = "anular";
   if (buffer.menique > 50) dedoFlexionado = "menique";
 
-  if (!dedoFlexionado) {
-    console.log(" Ningún dedo flexionado");
-  } else {
+  if (dedoFlexionado) {
     const accion = mov[dedoFlexionado];
-
     if (accion) {
       puerto.write(accion + "\n");
-      console.log("✔ Acción enviada:", accion);
-    } else {
-      console.log(" No hay acción configurada para ese dedo");
+      console.log("✔ Acción enviada desde guante:", accion);
     }
   }
 
-  // ✔ reiniciar buffer para la próxima lectura
-  buffer = {
-    indice: null,
-    mayor: null,
-    anular: null,
-    menique: null,
-  };
+  buffer = { indice: null, medio: null, anular: null, menique: null };
 });
 
 puerto.on("error", (err) => {
-  console.error("Error en el puerto serial:", err.message);
+  console.error("❌ Error serial:", err.message);
 });
 
 startServer(3000);
-console.log("Backend iniciado en puerto 3000");
+console.log("🚀 Backend andando en puerto 3000");
