@@ -2,7 +2,7 @@ import fs from "fs";
 import { subscribePOSTEvent, startServer } from "soquetic";
 import { SerialPort } from "serialport";
 
- const puerto = new SerialPort({ path: "COM3", baudRate: 9600 });
+ const puerto = new SerialPort({ path: "COM4", baudRate: 9600 });
 
 export function guardarMovimientos(data) {
   try {

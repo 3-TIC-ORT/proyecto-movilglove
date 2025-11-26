@@ -1,11 +1,58 @@
-import { startServer, subscribePOSTEvent } from "soquetic";
 import fs from "fs";
+import { subscribePOSTEvent, startServer } from "soquetic";
 import { SerialPort, ReadlineParser } from "serialport";
 
-const puerto = new SerialPort({ path: "COM3", baudRate: 9600 });
-const parser = puerto.pipe(new ReadlineParser({ delimiter: "\n" }));
+function cargarUsuarios() {
+  try {
+    return JSON.parse(fs.readFileSync("usuario.json", "utf-8"));
+  } catch {
+    return [];
+  }
+}
 
-console.log(" Servidor de hardware iniciado. Esperando datos del Arduino...");
+function guardarUsuarios(lista) {
+  fs.writeFileSync("usuario.json", JSON.stringify(lista, null, 2), "utf-8");
+}
+
+function iniciarSesion(usuario, contraseña) {
+  const lista = cargarUsuarios();
+  const user = lista.find(u => u.usuario === usuario);
+
+  if (!user) {
+    return { success: false, msg: "El nombre de usuario no existe" };
+  }
+
+  if (user.contraseña === contraseña) {
+    return { success: true, msg: "Inicio de sesión correcto" };
+  } else {
+    return { success: false, msg: "Contraseña incorrecta" };
+  }
+}
+
+function registrarse(usuario, contraseña) {
+  const lista = cargarUsuarios();
+  const existe = lista.find(u => u.usuario === usuario);
+
+  if (existe) {
+    return { success: false, msg: "El usuario ya existe" };
+  }
+
+  lista.push({ usuario, contraseña });
+  guardarUsuarios(lista);
+
+  return { success: true, msg: "Usuario registrado correctamente" };
+}
+
+subscribePOSTEvent("login", (data) => {
+  return iniciarSesion(data.usuario, data.contraseña);
+});
+
+subscribePOSTEvent("register", (data) => {
+  return registrarse(data.usuario, data.contraseña);
+});
+
+
+/* ----------------------------- 🤝 ESTADO ------------------------------ */
 
 let usuarioActual = null;
 
@@ -15,11 +62,13 @@ subscribePOSTEvent("actualizarUsuarioActual", (data) => {
   return { success: true };
 });
 
+
+/* -------------------------- 💾 MOVIMIENTOS ----------------------------- */
+
 function cargarMovimientosDeUsuario(usuario) {
   try {
     const contenido = fs.readFileSync("movimientos.json", "utf-8");
     const lista = JSON.parse(contenido);
-
     return lista.find((u) => u.usuario === usuario);
   } catch {
     return null;
@@ -58,13 +107,16 @@ subscribePOSTEvent("guardarConfiguracion", (data) => {
     "utf-8"
   );
 
-  console.log("💾 Configuración guardada para:", data.usuario);
-
+  console.log("Configuración guardada para:", data.usuario);
   return { success: true, msg: "Configuración guardada correctamente" };
 });
 
 
-// ✔ buffer corregido (incluye el dedo “mayor” en vez de “medio”)
+const puerto = new SerialPort({ path: "COM4", baudRate: 9600 });
+const parser = puerto.pipe(new ReadlineParser({ delimiter: "\n" }));
+
+console.log("🔥 Servidor de hardware iniciado. Esperando datos del Arduino...");
+
 let buffer = {
   indice: null,
   mayor: null,
@@ -79,16 +131,10 @@ parser.on("data", (data) => {
   const dedoLimpio = dedo.replace("dedo ", "").trim().toLowerCase();
   const numero = parseInt(valor);
 
-  console.log("Dedo:", dedoLimpio);
-  console.log("Valor:", numero);
-
   if (buffer.hasOwnProperty(dedoLimpio)) {
     buffer[dedoLimpio] = numero;
   }
 
-  console.log("buffer:", buffer);
-
-  // ✔ SOLO procesar si todos los dedos recibieron al menos un número
   const completo =
     buffer.indice !== null &&
     buffer.mayor !== null &&
@@ -113,26 +159,19 @@ parser.on("data", (data) => {
 
   let dedoFlexionado = null;
 
-  // ✔ nombre corregido: “mayor”
   if (buffer.indice > 50) dedoFlexionado = "indice";
   if (buffer.mayor > 50) dedoFlexionado = "mayor";
   if (buffer.anular > 50) dedoFlexionado = "anular";
   if (buffer.menique > 50) dedoFlexionado = "menique";
 
-  if (!dedoFlexionado) {
-    console.log(" Ningún dedo flexionado");
-  } else {
+  if (dedoFlexionado) {
     const accion = mov[dedoFlexionado];
-
     if (accion) {
       puerto.write(accion + "\n");
       console.log("✔ Acción enviada:", accion);
-    } else {
-      console.log(" No hay acción configurada para ese dedo");
     }
   }
 
-  // ✔ reiniciar buffer para la próxima lectura
   buffer = {
     indice: null,
     mayor: null,

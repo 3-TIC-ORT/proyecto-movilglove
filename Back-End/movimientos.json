@@ -1,14 +1,14 @@
 [
   {
     "usuario": "hola",
-    "moivimientos": {
+    "movimientos": {
       "indice": "Retroceder",
       "medio": "Avanzar",
       "anular": "Izquierda",
       "menique": "Derecha"
     }
   },
-  { 
+  {
     "usuario": "Shulian",
     "movimientos": {
       "indice": "Avanzar",
@@ -29,10 +29,10 @@
   {
     "usuario": "Lenny",
     "movimientos": {
-      "indice": "Izquierda",
-      "medio": "Avanzar",
-      "anular": "Derecha",
-      "menique": "Retroceder"
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Izquierda",
+      "menique": "Derecha"
     }
   },
   {
