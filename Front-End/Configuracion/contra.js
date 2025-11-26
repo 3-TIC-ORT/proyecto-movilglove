@@ -14,11 +14,11 @@ btnGuardar.addEventListener("click", () => {
       indice: selectIndice.value,
       medio: selectMedio.value,
       anular: selectAnular.value,
-      menique: selectMenique.value,
-    },
+      menique: selectMenique.value
+    }
   };
 
-
+  // Validación correcta
   if (
     configuracion.movimientos.indice === "--Seleccionar--" ||
     configuracion.movimientos.medio === "--Seleccionar--" ||
@@ -29,17 +29,7 @@ btnGuardar.addEventListener("click", () => {
     return;
   }
 
-
   postEvent("guardarConfiguracion", configuracion, (respuesta) => {
     alert(respuesta.msg || respuesta);
-
-    console.log("▶ Probando movimientos en Arduino…");
-
-    postEvent("enviarMovimiento", { mov: configuracion.movimientos.indice });
-    postEvent("enviarMovimiento", { mov: configuracion.movimientos.medio });
-    postEvent("enviarMovimiento", { mov: configuracion.movimientos.anular });
-    postEvent("enviarMovimiento", { mov: configuracion.movimientos.menique });
-
-    alert("Se enviaron los movimientos al Arduino para pruebas.");
   });
 });
