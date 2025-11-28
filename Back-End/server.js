@@ -51,15 +51,12 @@ subscribePOSTEvent("register", (data) => {
   return registrarse(data.usuario, data.contraseña);
 });
 
-
 let usuarioActual = null;
 
 subscribePOSTEvent("actualizarUsuarioActual", (data) => {
   usuarioActual = data.usuario;
-  console.log("👤 Usuario actual:", usuarioActual);
   return { success: true };
 });
-
 
 function cargarMovimientosDeUsuario(usuario) {
   try {
@@ -103,14 +100,11 @@ subscribePOSTEvent("guardarConfiguracion", (data) => {
     "utf-8"
   );
 
-  console.log("💾 Configuración guardada para:", data.usuario);
   return { success: true, msg: "Configuración guardada correctamente" };
 });
 
 const puerto = new SerialPort({ path: "COM4", baudRate: 9600 });
 const parser = puerto.pipe(new ReadlineParser({ delimiter: "\n" }));
-
-console.log("🔥 Servidor de hardware iniciado. Esperando datos del Arduino...");
 
 let buffer = {
   indice: null,
@@ -122,12 +116,14 @@ let buffer = {
 parser.on("data", (data) => {
   data = data.trim();
 
-  const [dedo, valor] = data.split(":");
-  const dedoLimpio = dedo.replace("dedo ", "").trim().toLowerCase();
-  const numero = parseInt(valor);
+  const partes = data.split(":");
+  if (partes.length !== 2) return;
 
-  if (buffer.hasOwnProperty(dedoLimpio)) {
-    buffer[dedoLimpio] = numero;
+  const dedo = partes[0].replace("dedo ", "").trim().toLowerCase();
+  const valor = parseInt(partes[1]);
+
+  if (buffer.hasOwnProperty(dedo)) {
+    buffer[dedo] = valor;
   }
 
   const completo =
@@ -138,17 +134,10 @@ parser.on("data", (data) => {
 
   if (!completo) return;
 
-  if (!usuarioActual) {
-    console.log("⚠ No hay usuario logueado, ignorando datos...");
-    return;
-  }
+  if (!usuarioActual) return;
 
   const usuarioConfig = cargarMovimientosDeUsuario(usuarioActual);
-
-  if (!usuarioConfig) {
-    console.log("❗ El usuario NO tiene movimientos configurados");
-    return;
-  }
+  if (!usuarioConfig) return;
 
   const mov = usuarioConfig.movimientos;
 
@@ -163,7 +152,6 @@ parser.on("data", (data) => {
     const accion = mov[dedoFlexionado];
     if (accion) {
       puerto.write(accion + "\n");
-      console.log("✔ Acción enviada:", accion);
     }
   }
 
@@ -178,5 +166,5 @@ parser.on("data", (data) => {
 puerto.on("error", (err) => {
   console.error("Error en el puerto serial:", err.message);
 });
+
 startServer(3000);
-console.log("Backend iniciado en puerto 3000");
