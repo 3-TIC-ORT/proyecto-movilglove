@@ -17,43 +17,26 @@ function guardarUsuarios(lista) {
 function iniciarSesion(usuario, contraseña) {
   const lista = cargarUsuarios();
   const user = lista.find(u => u.usuario === usuario);
-
-  if (!user) {
-    return { success: false, msg: "El nombre de usuario no existe" };
-  }
-
-  if (user.contraseña === contraseña) {
-    return { success: true, msg: "Inicio de sesión correcto" };
-  } else {
-    return { success: false, msg: "Contraseña incorrecta" };
-  }
+  if (!user) return { success: false, msg: "El nombre de usuario no existe" };
+  if (user.contraseña === contraseña) return { success: true, msg: "Inicio de sesión correcto" };
+  return { success: false, msg: "Contraseña incorrecta" };
 }
 
 function registrarse(usuario, contraseña) {
   const lista = cargarUsuarios();
   const existe = lista.find(u => u.usuario === usuario);
-
-  if (existe) {
-    return { success: false, msg: "El usuario ya existe" };
-  }
-
+  if (existe) return { success: false, msg: "El usuario ya existe" };
   lista.push({ usuario, contraseña });
   guardarUsuarios(lista);
-
   return { success: true, msg: "Usuario registrado correctamente" };
 }
 
-subscribePOSTEvent("login", (data) => {
-  return iniciarSesion(data.usuario, data.contraseña);
-});
-
-subscribePOSTEvent("register", (data) => {
-  return registrarse(data.usuario, data.contraseña);
-});
+subscribePOSTEvent("login", data => iniciarSesion(data.usuario, data.contraseña));
+subscribePOSTEvent("register", data => registrarse(data.usuario, data.contraseña));
 
 let usuarioActual = null;
 
-subscribePOSTEvent("actualizarUsuarioActual", (data) => {
+subscribePOSTEvent("actualizarUsuarioActual", data => {
   usuarioActual = data.usuario;
   return { success: true };
 });
@@ -62,69 +45,50 @@ function cargarMovimientosDeUsuario(usuario) {
   try {
     const contenido = fs.readFileSync("movimientos.json", "utf-8");
     const lista = JSON.parse(contenido);
-    return lista.find((u) => u.usuario === usuario);
+    return lista.find(u => u.usuario === usuario);
   } catch {
     return null;
   }
 }
 
-subscribePOSTEvent("guardarConfiguracion", (data) => {
-  if (!data.usuario) {
-    return { success: false, msg: "No llegó el usuario desde el front" };
-  }
-
-  if (!data.movimientos) {
-    return { success: false, msg: "No llegaron los movimientos" };
-  }
+subscribePOSTEvent("guardarConfiguracion", data => {
+  if (!data.usuario) return { success: false, msg: "No llegó el usuario desde el front" };
+  if (!data.movimientos) return { success: false, msg: "No llegaron los movimientos" };
 
   let movimientos = [];
-
   if (fs.existsSync("movimientos.json")) {
     const contenido = fs.readFileSync("movimientos.json", "utf-8");
-    if (contenido.trim() !== "") {
-      movimientos = JSON.parse(contenido);
-    }
+    if (contenido.trim() !== "") movimientos = JSON.parse(contenido);
   }
 
-  const existente = movimientos.find((u) => u.usuario === data.usuario);
+  const existente = movimientos.find(u => u.usuario === data.usuario);
+  if (existente) existente.movimientos = data.movimientos;
+  else movimientos.push(data);
 
-  if (existente) {
-    existente.movimientos = data.movimientos;
-  } else {
-    movimientos.push(data);
-  }
-
-  fs.writeFileSync(
-    "movimientos.json",
-    JSON.stringify(movimientos, null, 2),
-    "utf-8"
-  );
+  fs.writeFileSync("movimientos.json", JSON.stringify(movimientos, null, 2), "utf-8");
 
   return { success: true, msg: "Configuración guardada correctamente" };
 });
 
-const puerto = new SerialPort({ path: "COM4", baudRate: 9600 });
+const puerto = new SerialPort({ path: "COM3", baudRate: 9600 });
 const parser = puerto.pipe(new ReadlineParser({ delimiter: "\n" }));
 
 let buffer = {
   indice: null,
   mayor: null,
   anular: null,
-  menique: null,
+  menique: null
 };
 
-parser.on("data", (data) => {
+parser.on("data", data => {
   data = data.trim();
-
   const partes = data.split(":");
   if (partes.length !== 2) return;
 
   const dedo = partes[0].replace("dedo ", "").trim().toLowerCase();
   const valor = parseInt(partes[1]);
 
-  if (buffer.hasOwnProperty(dedo)) {
-    buffer[dedo] = valor;
-  }
+  if (buffer.hasOwnProperty(dedo)) buffer[dedo] = valor;
 
   const completo =
     buffer.indice !== null &&
@@ -133,7 +97,6 @@ parser.on("data", (data) => {
     buffer.menique !== null;
 
   if (!completo) return;
-
   if (!usuarioActual) return;
 
   const usuarioConfig = cargarMovimientosDeUsuario(usuarioActual);
@@ -142,7 +105,6 @@ parser.on("data", (data) => {
   const mov = usuarioConfig.movimientos;
 
   let dedoFlexionado = null;
-
   if (buffer.indice > 50) dedoFlexionado = "indice";
   if (buffer.mayor > 50) dedoFlexionado = "mayor";
   if (buffer.anular > 50) dedoFlexionado = "anular";
@@ -150,20 +112,18 @@ parser.on("data", (data) => {
 
   if (dedoFlexionado) {
     const accion = mov[dedoFlexionado];
-    if (accion) {
-      puerto.write(accion + "\n");
-    }
+    if (accion) puerto.write(accion + "\n");
   }
 
   buffer = {
     indice: null,
     mayor: null,
     anular: null,
-    menique: null,
+    menique: null
   };
 });
 
-puerto.on("error", (err) => {
+puerto.on("error", err => {
   console.error("Error en el puerto serial:", err.message);
 });
 
