@@ -337,6 +337,164 @@ void loop () {
   }
   delay(100);
 }
-//Soy el encargado de escribir este codigo 1 mes luego de haberlo hecho. Recién hoy pude ver si es correcto
-//o no... No registra una lectura coherente. ni siquiera se si es un problema de codigo o de hardware,
-//lo que si se es que ya ni yo entiendo lo que mi programa hace
+/*
+Vamos a hacer un código que saltee la comunicación serial para poder mover el hardware
+independientemente del backend, que aún no ha terminado la comunicación con serialport. La idea es que 
+detectemos los inputs de los dedos y en base a eso se le asigne un commando (avanzar, retroceder, doblar, etc)
+sin posibilidad de ser programado por el usuario
+*/
+
+//movimiento de motor
+#define ENA 9
+#define ENB 10
+#define IN1 3
+#define IN2 4
+#define IN3 5
+#define IN4 6
+int velocidad = 200;
+
+//detección de dedos
+#define sens1 A0
+#define sens2 A1
+#define sens3 A2
+#define sens4 A3
+
+int dedo1 = 0;
+int dedo2 = 0;
+int dedo3 = 0;
+int dedo4 = 0;
+
+long max = 0;
+long min = 1023;
+int respuesta = 0;
+
+String orden = "";
+ // los flex sensors dan valores entre 535 y 565, asi que vamos a crear una función  que los convierta
+ //en porcentaje
+
+int conversor1 (int Valor) {
+   respuesta = map(Valor, 470, 950, 0, 100);
+  
+  if (respuesta < 0) {
+    respuesta = 0;
+  }
+  if (respuesta > 100) {
+    respuesta = 100;
+  }
+
+  Serial.print ("dedo menique:");
+  Serial.println(respuesta);
+  return respuesta;
+}
+
+int conversor2 (int Valor) {
+   respuesta = map(Valor, 470, 950, 0, 100);
+  
+  if (respuesta < 0) {
+    respuesta = 0;
+  }
+  if (respuesta > 100) {
+    respuesta = 100;
+  }
+
+  Serial.print ("dedo anular:");
+  Serial.println(respuesta);
+  return respuesta;
+}
+
+int conversor3 (int Valor) {
+   respuesta = map(Valor, 470, 950, 0, 100);
+  
+  if (respuesta < 0) {
+    respuesta = 0;
+  }
+  if (respuesta > 100) {
+    respuesta = 100;
+  }
+
+  Serial.print ("dedo mayor:");
+  Serial.println(respuesta);
+  return respuesta;
+}
+
+int conversor4 (int Valor) {
+   respuesta = map(Valor, 470, 950, 0, 100);
+
+  if (respuesta < 0) {
+    respuesta = 0;
+  }
+  if (respuesta > 100) {
+    respuesta = 100;
+  }
+
+  Serial.print ("dedo indice:");
+  Serial.println(respuesta);
+  return respuesta;
+}
+
+
+
+void setup () {
+ //movimiento de motor
+ pinMode(3, OUTPUT); 
+ pinMode(4,OUTPUT); 
+ pinMode(9,OUTPUT);
+ pinMode(5,OUTPUT); 
+ pinMode(6,OUTPUT); 
+ pinMode(10,OUTPUT);
+ Serial.begin (9600);
+ //detección de dedos
+ pinMode(sens1, INPUT);
+ pinMode(sens2,INPUT);
+ pinMode(sens3,INPUT);
+ pinMode(sens4,INPUT);
+
+}
+
+void loop () {
+  //detección de dedos
+  dedo1 = analogRead(sens1);
+  dedo2 = analogRead(sens2);
+  dedo3 = analogRead(sens3);
+  dedo4 = analogRead(sens4);
+  int orden1 = conversor1(dedo1);
+  int orden2 = conversor2(dedo2);
+  int orden3 = conversor3(dedo3);
+  int orden4 = conversor4(dedo4);
+
+  //movimiento de motores:
+  
+  if (orden1 > 40) { //los motores tienen que ir a contra-reloj
+    analogWrite(ENA, velocidad);
+    analogWrite(ENB, velocidad);
+    digitalWrite(IN2, HIGH);
+    digitalWrite(IN4, HIGH);
+    digitalWrite(IN1, LOW);
+    digitalWrite(IN3, LOW);
+    Serial.println("atras");
+  }else if (orden2 > 40) {
+    analogWrite(ENB, 0);
+    analogWrite(ENA, velocidad);
+    digitalWrite(IN1, HIGH);
+    digitalWrite(IN2, LOW);
+    Serial.println("derecha");
+  }else if (orden3 > 40) {
+    digitalWrite(IN1, HIGH);
+    digitalWrite(IN2, LOW);
+    analogWrite(ENA, velocidad);
+    analogWrite(ENB, velocidad);
+    digitalWrite(IN3, HIGH);
+    digitalWrite(IN4, LOW);
+    Serial.println("adelante");
+  }else if (orden4 > 40) {
+    analogWrite(ENA, 0);
+    analogWrite(ENB, velocidad);
+    digitalWrite(IN3, HIGH);
+    digitalWrite(IN4 , LOW);
+    Serial.println("izquierda");
+  }else {
+      analogWrite(ENA, 0);
+      analogWrite(ENB, 0);
+    }
+  delay(100);
+}
