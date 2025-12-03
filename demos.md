@@ -116,3 +116,18 @@ El Arduino tiene ciclos de 200ms (creo) Por cada ciclo, va a enviar los datos de
 yo ahora te voy a mandar algunas cosas para que vos entiendas mi codigo, me lo corrijas y asi ya puedo tener mi codigo final.
 Las cosas que te voy a mandar son:
 una explicacion de mi codigo de la conexion frontend-Backend la cual es una biblioteca, y te voy a mandar mi codigo del arrduino que ese no lo podes cambiar, y mi codigo BACK-END QUE ES EL QUE TENES QUE CORRREGIR. A MI SOLO ME FALTA CORREGIR EL CODIGO BACK-END PARA QUE LE LLEGUEN LAS ACCIONES AL ARDUINO, QUE ESO ES EN LO QUE ME TENES QUE AYUDAR
+
+  String orden = "";
+void setup() {
+ Serial.begin(9600);  // put your setup code here, to run once:
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  
+  if (Serial.available () > 0) {
+    orden = Serial.readString();
+    Serial.print(orden);
+  }
+}

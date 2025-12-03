@@ -121,7 +121,7 @@ let buffer = {
 
 function normalizarAccion(accion) {
   if (!accion) return null;
-  const a = accion.toLowerCase();
+  const a = accion.toLowerCase().trim(); 
 
   if (a === "adelante" || a === "avanzar") return "Adelante";
   if (a === "atras" || a === "retroceder") return "Atras";
@@ -130,6 +130,7 @@ function normalizarAccion(accion) {
 
   return null;
 }
+
 
 parser.on("data", (linea) => {
   const data = linea.trim();
@@ -161,40 +162,62 @@ parser.on("data", (linea) => {
 
   if (!completo) return;
 
+  console.log("dedo indice:", buffer.indice);
+  console.log("dedo medio:", buffer.medio);
+  console.log("dedo anular:", buffer.anular);
+  console.log("dedo menique:", buffer.menique);
+
   if (!usuarioActual) {
+    console.log("No hay usuarioActual, no mando nada al Arduino");
     buffer = { indice: null, medio: null, anular: null, menique: null };
     return;
   }
 
   const usuarioConfig = cargarMovimientosDeUsuario(usuarioActual);
   if (!usuarioConfig || !usuarioConfig.movimientos) {
+    console.log("No hay configuración de movimientos para", usuarioActual);
     buffer = { indice: null, medio: null, anular: null, menique: null };
     return;
   }
 
   const mov = usuarioConfig.movimientos;
 
-  const flexionados = [];
-  if (buffer.indice > 50) flexionados.push("indice");
-  if (buffer.medio > 50) flexionados.push("medio");
-  if (buffer.anular > 50) flexionados.push("anular");
-  if (buffer.menique > 50) flexionados.push("menique");
+  // --- NUEVA LÓGICA: TOMAR EL DEDO CON MAYOR VALOR ---
+  const dedos = ["indice", "medio", "anular", "menique"];
+  let dedoFlexionado = null;
+  let maxValor = -1;
 
-  if (flexionados.length !== 1) {
+  for (const d of dedos) {
+    const v = buffer[d];
+    if (v !== null && v > maxValor) {
+      maxValor = v;
+      dedoFlexionado = d;
+    }
+  }
+
+  console.log("Dedo con mayor valor:", dedoFlexionado, "=", maxValor);
+
+  // Si el valor máximo no pasa de 50, lo tomamos como que no hay flexión clara
+  if (maxValor <= 50) {
+    console.log("Ningún dedo supera el umbral, no mando nada");
     buffer = { indice: null, medio: null, anular: null, menique: null };
     return;
   }
 
-  const dedoFlexionado = flexionados[0];
   const accionUsuario = mov[dedoFlexionado];
   const ordenArduino = normalizarAccion(accionUsuario);
 
-  console.log(
-    `Dedo flexionado: ${dedoFlexionado} (${buffer[dedoFlexionado]}), acción usuario: ${accionUsuario}, orden Arduino: ${ordenArduino}`
-  );
+  console.log("Acción usuario:", accionUsuario);
+  console.log("Orden Arduino:", ordenArduino);
 
   if (ordenArduino) {
+    console.log("Entro al if, mando al Arduino:", ordenArduino);
     enviarAArduino(ordenArduino);
+  } else {
+    console.log(
+      "ordenArduino es null, la acción del usuario no es reconocida:",
+      accionUsuario
+    );
   }
 
   buffer = {
@@ -204,5 +227,6 @@ parser.on("data", (linea) => {
     menique: null,
   };
 });
+
 
 startServer(3000);
