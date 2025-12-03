@@ -1,7 +1,6 @@
 import fs from "fs";
 import { subscribePOSTEvent, startServer } from "soquetic";
 import { SerialPort, ReadlineParser } from "serialport";
-import { prototype } from "events";
 
 function cargarUsuarios() {
   try {
@@ -17,28 +16,34 @@ function guardarUsuarios(lista) {
 
 function iniciarSesion(usuario, contraseña) {
   const lista = cargarUsuarios();
-  const user = lista.find(u => u.usuario === usuario);
+  const user = lista.find((u) => u.usuario === usuario);
   if (!user) return { success: false, msg: "El nombre de usuario no existe" };
-  if (user.contraseña === contraseña) return { success: true, msg: "Inicio de sesión correcto" };
+  if (user.contraseña === contraseña)
+    return { success: true, msg: "Inicio de sesión correcto" };
   return { success: false, msg: "Contraseña incorrecta" };
 }
 
 function registrarse(usuario, contraseña) {
   const lista = cargarUsuarios();
-  const existe = lista.find(u => u.usuario === usuario);
+  const existe = lista.find((u) => u.usuario === usuario);
   if (existe) return { success: false, msg: "El usuario ya existe" };
   lista.push({ usuario, contraseña });
   guardarUsuarios(lista);
   return { success: true, msg: "Usuario registrado correctamente" };
 }
 
-subscribePOSTEvent("login", data => iniciarSesion(data.usuario, data.contraseña));
-subscribePOSTEvent("register", data => registrarse(data.usuario, data.contraseña));
+subscribePOSTEvent("login", (data) =>
+  iniciarSesion(data.usuario, data.contraseña)
+);
+subscribePOSTEvent("register", (data) =>
+  registrarse(data.usuario, data.contraseña)
+);
 
 let usuarioActual = null;
 
-subscribePOSTEvent("actualizarUsuarioActual", data => {
+subscribePOSTEvent("actualizarUsuarioActual", (data) => {
   usuarioActual = data.usuario;
+  console.log("Usuario actual:", usuarioActual);
   return { success: true };
 });
 
@@ -46,15 +51,17 @@ function cargarMovimientosDeUsuario(usuario) {
   try {
     const contenido = fs.readFileSync("movimientos.json", "utf-8");
     const lista = JSON.parse(contenido);
-    return lista.find(u => u.usuario === usuario);
+    return lista.find((u) => u.usuario === usuario) || null;
   } catch {
     return null;
   }
 }
 
-subscribePOSTEvent("guardarConfiguracion", data => {
-  if (!data.usuario) return { success: false, msg: "No llegó el usuario desde el front" };
-  if (!data.movimientos) return { success: false, msg: "No llegaron los movimientos" };
+subscribePOSTEvent("guardarConfiguracion", (data) => {
+  if (!data.usuario)
+    return { success: false, msg: "No llegó el usuario desde el front" };
+  if (!data.movimientos)
+    return { success: false, msg: "No llegaron los movimientos" };
 
   let movimientos = [];
   if (fs.existsSync("movimientos.json")) {
@@ -62,68 +69,140 @@ subscribePOSTEvent("guardarConfiguracion", data => {
     if (contenido.trim() !== "") movimientos = JSON.parse(contenido);
   }
 
-  const existente = movimientos.find(u => u.usuario === data.usuario);
-  if (existente) existente.movimientos = data.movimientos;
-  else movimientos.push(data);
+  const existente = movimientos.find((u) => u.usuario === data.usuario);
+  if (existente) {
+    existente.movimientos = data.movimientos;
+  } else {
+    movimientos.push({
+      usuario: data.usuario,
+      movimientos: data.movimientos,
+    });
+  }
 
-  fs.writeFileSync("movimientos.json", JSON.stringify(movimientos, null, 2), "utf-8");
+  fs.writeFileSync(
+    "movimientos.json",
+    JSON.stringify(movimientos, null, 2),
+    "utf-8"
+  );
 
+  console.log("Configuración guardada para", data.usuario, data.movimientos);
   return { success: true, msg: "Configuración guardada correctamente" };
 });
 
-const port = new SerialPort({ path: "COM3", baudRate: 9600 });
-const parser = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
+const puerto = new SerialPort({ path: "COM6", baudRate: 9600 });
 
-port.on("open", () => {
-  console.log("Puerto serial abierto");
+puerto.on("open", () => {
+  console.log("Puerto serie abierto en COM6");
 });
 
-
-function enviarAArduino(comando) {
-  port.write(comando.toString() + "\n");
-}
-
-
-function medicion({ Tipo }) {
-  if (Tipo === "humedad") enviarAArduino("RH");
-  else if (Tipo === "temperatura") enviarAArduino("RT");
-  else if (Tipo === "luz") enviarAArduino("RL");
-  else if (Tipo === "sonido") enviarAArduino("RM");
-  else console.log("Tipo de medición no reconocido");
-}
-
-
-function movimiento({ direccion }) {
-  if (direccion === "adelante") enviarAArduino("W");
-  else if (direccion === "atras") enviarAArduino("S");
-  else if (direccion === "derecha") enviarAArduino("D");
-  else if (direccion === "izquierda") enviarAArduino("A");
-  else if (direccion === "frenar") enviarAArduino("X");
-  else console.log("Dirección no reconocida");
-}
-
-
-subscribePOSTEvent("medir", medicion);
-subscribePOSTEvent("movimiento", movimiento);
-
-parser.on("data", (data) => {
-  const tipo = data.substring(0, 2);
-  const valor = data.substring(2);
-
-  if (tipo === "RL") realTimeEvent("nuevasLuces", { tipo, valor });
-  else if (tipo === "RH") realTimeEvent("nuevasHumedades", { tipo, valor });
-  else if (tipo === "RM") realTimeEvent("nuevosSonidos", { tipo, valor });
-  else if (tipo === "RT") realTimeEvent("nuevasTemperaturas", { tipo, valor });
-
-  let devoluciones = [];
-  if (fs.existsSync("datos.json")) {
-    devoluciones = JSON.parse(fs.readFileSync("datos.json", "utf-8"));
-  }
-
-  devoluciones.push({ tipo, valor });
-  fs.writeFileSync("datos.json", JSON.stringify(devoluciones, null, 2));
-});
-
-port.on("error", (err) => {
+puerto.on("error", (err) => {
   console.error("Error en el puerto serial:", err.message);
 });
+
+function enviarAArduino(orden) {
+  if (!orden) return;
+  puerto.write(orden.toString() + "\n", (err) => {
+    if (err) {
+      console.error("Error al escribir en el puerto serial:", err.message);
+    } else {
+      console.log("Orden enviada al Arduino:", orden);
+    }
+  });
+}
+
+const parser = puerto.pipe(new ReadlineParser({ delimiter: "\n" }));
+
+let buffer = {
+  indice: null,
+  medio: null,
+  anular: null,
+  menique: null,
+};
+
+function normalizarAccion(accion) {
+  if (!accion) return null;
+  const a = accion.toLowerCase();
+
+  if (a === "adelante" || a === "avanzar") return "Adelante";
+  if (a === "atras" || a === "retroceder") return "Atras";
+  if (a === "izquierda") return "Izquierda";
+  if (a === "derecha") return "Derecha";
+
+  return null;
+}
+
+parser.on("data", (linea) => {
+  const data = linea.trim();
+  if (data === "") return;
+
+  console.log(data);
+
+  const partes = data.split(":");
+  if (partes.length !== 2) return;
+
+  let dedoNombre = partes[0].replace("dedo ", "").trim().toLowerCase();
+  const valor = parseInt(partes[1]);
+
+  if (Number.isNaN(valor)) return;
+
+  if (dedoNombre === "mayor") {
+    dedoNombre = "medio";
+  }
+
+  if (buffer.hasOwnProperty(dedoNombre)) {
+    buffer[dedoNombre] = valor;
+  }
+
+  const completo =
+    buffer.indice !== null &&
+    buffer.medio !== null &&
+    buffer.anular !== null &&
+    buffer.menique !== null;
+
+  if (!completo) return;
+
+  if (!usuarioActual) {
+    buffer = { indice: null, medio: null, anular: null, menique: null };
+    return;
+  }
+
+  const usuarioConfig = cargarMovimientosDeUsuario(usuarioActual);
+  if (!usuarioConfig || !usuarioConfig.movimientos) {
+    buffer = { indice: null, medio: null, anular: null, menique: null };
+    return;
+  }
+
+  const mov = usuarioConfig.movimientos;
+
+  const flexionados = [];
+  if (buffer.indice > 50) flexionados.push("indice");
+  if (buffer.medio > 50) flexionados.push("medio");
+  if (buffer.anular > 50) flexionados.push("anular");
+  if (buffer.menique > 50) flexionados.push("menique");
+
+  if (flexionados.length !== 1) {
+    buffer = { indice: null, medio: null, anular: null, menique: null };
+    return;
+  }
+
+  const dedoFlexionado = flexionados[0];
+  const accionUsuario = mov[dedoFlexionado];
+  const ordenArduino = normalizarAccion(accionUsuario);
+
+  console.log(
+    `Dedo flexionado: ${dedoFlexionado} (${buffer[dedoFlexionado]}), acción usuario: ${accionUsuario}, orden Arduino: ${ordenArduino}`
+  );
+
+  if (ordenArduino) {
+    enviarAArduino(ordenArduino);
+  }
+
+  buffer = {
+    indice: null,
+    medio: null,
+    anular: null,
+    menique: null,
+  };
+});
+
+startServer(3000);
