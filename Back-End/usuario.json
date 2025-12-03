@@ -38,5 +38,9 @@
   {
     "usuario": "gol",
     "contraseña": "goleador"
+  },
+  {
+    "usuario": "hopper",
+    "contraseña": "pepe"
   }
 ]

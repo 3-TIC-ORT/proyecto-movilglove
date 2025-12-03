@@ -110,7 +110,8 @@ function enviarAArduino(orden) {
   });
 }
 
-const parser = puerto.pipe(new ReadlineParser({ delimiter: "\n" }));
+// Usamos \r\n porque ya probaste que así anda perfecto con testSerial.js
+const parser = puerto.pipe(new ReadlineParser({ delimiter: "\r\n" }));
 
 let buffer = {
   indice: null,
@@ -119,40 +120,55 @@ let buffer = {
   menique: null,
 };
 
+function resetBuffer() {
+  buffer = {
+    indice: null,
+    medio: null,
+    anular: null,
+    menique: null,
+  };
+}
+
 function normalizarAccion(accion) {
   if (!accion) return null;
-  const a = accion.toLowerCase().trim(); 
-
+  const a = accion.toLowerCase().trim();
   if (a === "adelante" || a === "avanzar") return "Adelante";
   if (a === "atras" || a === "retroceder") return "Atras";
   if (a === "izquierda") return "Izquierda";
   if (a === "derecha") return "Derecha";
-
   return null;
 }
-
 
 parser.on("data", (linea) => {
   const data = linea.trim();
   if (data === "") return;
 
-  console.log(data);
+  console.log(data); // lo que manda Arduino
 
   const partes = data.split(":");
   if (partes.length !== 2) return;
 
-  let dedoNombre = partes[0].replace("dedo ", "").trim().toLowerCase();
-  const valor = parseInt(partes[1]);
+  let dedoNombre = partes[0].trim().toLowerCase();
+  let valor = parseInt(partes[1]);
 
   if (Number.isNaN(valor)) return;
 
-  if (dedoNombre === "mayor") {
-    dedoNombre = "medio";
+  if (dedoNombre.startsWith("dedo ")) {
+    dedoNombre = dedoNombre.slice(5);
   }
 
-  if (buffer.hasOwnProperty(dedoNombre)) {
-    buffer[dedoNombre] = valor;
-  }
+  dedoNombre = dedoNombre
+    .replace("í", "i")
+    .replace("é", "e")
+    .replace("ñ", "n")
+    .trim();
+
+  if (dedoNombre === "mayor") dedoNombre = "medio";
+  if (dedoNombre === "menique") dedoNombre = "menique";
+
+  if (!buffer.hasOwnProperty(dedoNombre)) return;
+
+  buffer[dedoNombre] = valor;
 
   const completo =
     buffer.indice !== null &&
@@ -169,20 +185,19 @@ parser.on("data", (linea) => {
 
   if (!usuarioActual) {
     console.log("No hay usuarioActual, no mando nada al Arduino");
-    buffer = { indice: null, medio: null, anular: null, menique: null };
+    resetBuffer();
     return;
   }
 
   const usuarioConfig = cargarMovimientosDeUsuario(usuarioActual);
   if (!usuarioConfig || !usuarioConfig.movimientos) {
     console.log("No hay configuración de movimientos para", usuarioActual);
-    buffer = { indice: null, medio: null, anular: null, menique: null };
+    resetBuffer();
     return;
   }
 
   const mov = usuarioConfig.movimientos;
 
-  // --- NUEVA LÓGICA: TOMAR EL DEDO CON MAYOR VALOR ---
   const dedos = ["indice", "medio", "anular", "menique"];
   let dedoFlexionado = null;
   let maxValor = -1;
@@ -197,10 +212,10 @@ parser.on("data", (linea) => {
 
   console.log("Dedo con mayor valor:", dedoFlexionado, "=", maxValor);
 
-  // Si el valor máximo no pasa de 50, lo tomamos como que no hay flexión clara
-  if (maxValor <= 50) {
+  const UMBRAL = 50;
+  if (maxValor <= UMBRAL) {
     console.log("Ningún dedo supera el umbral, no mando nada");
-    buffer = { indice: null, medio: null, anular: null, menique: null };
+    resetBuffer();
     return;
   }
 
@@ -211,22 +226,16 @@ parser.on("data", (linea) => {
   console.log("Orden Arduino:", ordenArduino);
 
   if (ordenArduino) {
-    console.log("Entro al if, mando al Arduino:", ordenArduino);
     enviarAArduino(ordenArduino);
+    console.log("Orden enviada al Arduino:", ordenArduino);
   } else {
     console.log(
-      "ordenArduino es null, la acción del usuario no es reconocida:",
+      "Acción no reconocida, no mando nada. Acción del usuario:",
       accionUsuario
     );
   }
 
-  buffer = {
-    indice: null,
-    medio: null,
-    anular: null,
-    menique: null,
-  };
+  resetBuffer();
 });
-
 
 startServer(3000);

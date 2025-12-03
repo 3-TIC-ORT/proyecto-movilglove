@@ -1,5 +1,15 @@
 connect2Server(3000);
 
+const usuario = localStorage.getItem("usuario");
+
+if (usuario) {
+  postEvent("actualizarUsuarioActual", { usuario }, (respuesta) => {
+    console.log("Usuario actual seteado en el backend:", usuario, respuesta);
+  });
+} else {
+  console.warn("No hay usuario en localStorage, no se pudo actualizar usuarioActual");
+}
+
 const selectIndice = document.getElementById("indice");
 const selectMedio = document.getElementById("medio");
 const selectAnular = document.getElementById("anular");
@@ -14,11 +24,10 @@ btnGuardar.addEventListener("click", () => {
       indice: selectIndice.value,
       medio: selectMedio.value,
       anular: selectAnular.value,
-      menique: selectMenique.value
-    }
+      menique: selectMenique.value,
+    },
   };
 
-  // Validación correcta
   if (
     configuracion.movimientos.indice === "--Seleccionar--" ||
     configuracion.movimientos.medio === "--Seleccionar--" ||
