@@ -1,6 +1,7 @@
 import fs from "fs";
 import { subscribePOSTEvent, startServer } from "soquetic";
 import { SerialPort, ReadlineParser } from "serialport";
+import { prototype } from "events";
 
 function cargarUsuarios() {
   try {
@@ -70,61 +71,59 @@ subscribePOSTEvent("guardarConfiguracion", data => {
   return { success: true, msg: "Configuración guardada correctamente" };
 });
 
-const puerto = new SerialPort({ path: "COM3", baudRate: 9600 });
-const parser = puerto.pipe(new ReadlineParser({ delimiter: "\n" }));
+const port = new SerialPort({ path: "COM3", baudRate: 9600 });
+const parser = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
 
-let buffer = {
-  indice: null,
-  mayor: null,
-  anular: null,
-  menique: null
-};
+port.on("open", () => {
+  console.log("Puerto serial abierto");
+});
 
-parser.on("data", data => {
-  data = data.trim();
-  const partes = data.split(":");
-  if (partes.length !== 2) return;
 
-  const dedo = partes[0].replace("dedo ", "").trim().toLowerCase();
-  const valor = parseInt(partes[1]);
+function enviarAArduino(comando) {
+  port.write(comando.toString() + "\n");
+}
 
-  if (buffer.hasOwnProperty(dedo)) buffer[dedo] = valor;
 
-  const completo =
-    buffer.indice !== null &&
-    buffer.mayor !== null &&
-    buffer.anular !== null &&
-    buffer.menique !== null;
+function medicion({ Tipo }) {
+  if (Tipo === "humedad") enviarAArduino("RH");
+  else if (Tipo === "temperatura") enviarAArduino("RT");
+  else if (Tipo === "luz") enviarAArduino("RL");
+  else if (Tipo === "sonido") enviarAArduino("RM");
+  else console.log("Tipo de medición no reconocido");
+}
 
-  if (!completo) return;
-  if (!usuarioActual) return;
 
-  const usuarioConfig = cargarMovimientosDeUsuario(usuarioActual);
-  if (!usuarioConfig) return;
+function movimiento({ direccion }) {
+  if (direccion === "adelante") enviarAArduino("W");
+  else if (direccion === "atras") enviarAArduino("S");
+  else if (direccion === "derecha") enviarAArduino("D");
+  else if (direccion === "izquierda") enviarAArduino("A");
+  else if (direccion === "frenar") enviarAArduino("X");
+  else console.log("Dirección no reconocida");
+}
 
-  const mov = usuarioConfig.movimientos;
 
-  let dedoFlexionado = null;
-  if (buffer.indice > 50) dedoFlexionado = "indice";
-  if (buffer.mayor > 50) dedoFlexionado = "mayor";
-  if (buffer.anular > 50) dedoFlexionado = "anular";
-  if (buffer.menique > 50) dedoFlexionado = "menique";
+subscribePOSTEvent("medir", medicion);
+subscribePOSTEvent("movimiento", movimiento);
 
-  if (dedoFlexionado) {
-    const accion = mov[dedoFlexionado];
-    if (accion) puerto.write(accion + "\n");
+parser.on("data", (data) => {
+  const tipo = data.substring(0, 2);
+  const valor = data.substring(2);
+
+  if (tipo === "RL") realTimeEvent("nuevasLuces", { tipo, valor });
+  else if (tipo === "RH") realTimeEvent("nuevasHumedades", { tipo, valor });
+  else if (tipo === "RM") realTimeEvent("nuevosSonidos", { tipo, valor });
+  else if (tipo === "RT") realTimeEvent("nuevasTemperaturas", { tipo, valor });
+
+  let devoluciones = [];
+  if (fs.existsSync("datos.json")) {
+    devoluciones = JSON.parse(fs.readFileSync("datos.json", "utf-8"));
   }
 
-  buffer = {
-    indice: null,
-    mayor: null,
-    anular: null,
-    menique: null
-  };
+  devoluciones.push({ tipo, valor });
+  fs.writeFileSync("datos.json", JSON.stringify(devoluciones, null, 2));
 });
 
-puerto.on("error", err => {
+port.on("error", (err) => {
   console.error("Error en el puerto serial:", err.message);
 });
-
-startServer(3000);
