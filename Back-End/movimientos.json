@@ -2,10 +2,10 @@
   {
     "usuario": "hola",
     "movimientos": {
-      "indice": "Avanzar",
-      "medio": "Retroceder",
-      "anular": "Izquierda",
-      "menique": "Derecha"
+      "indice": "Retroceder",
+      "medio": "Izquierda",
+      "anular": "Derecha",
+      "menique": "Avanzar"
     }
   },
   {
@@ -60,6 +60,24 @@
       "medio": "Izquierda",
       "anular": "Retroceder",
       "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "buenas",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Izquierda",
+      "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "maxi",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Derecha",
+      "anular": "Izquierda",
+      "menique": "Retroceder"
     }
   }
 ]

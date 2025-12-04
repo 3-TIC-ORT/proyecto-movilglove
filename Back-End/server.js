@@ -110,7 +110,6 @@ function enviarAArduino(orden) {
   });
 }
 
-// Usamos \r\n porque ya probaste que así anda perfecto con testSerial.js
 const parser = puerto.pipe(new ReadlineParser({ delimiter: "\r\n" }));
 
 let buffer = {
@@ -156,19 +155,19 @@ parser.on("data", (linea) => {
   if (dedoNombre.startsWith("dedo ")) {
     dedoNombre = dedoNombre.slice(5);
   }
-
   dedoNombre = dedoNombre
     .replace("í", "i")
     .replace("é", "e")
     .replace("ñ", "n")
     .trim();
 
-  if (dedoNombre === "mayor") dedoNombre = "medio";
+  if (dedoNombre === "mayor") dedoNombre = "medio"; 
   if (dedoNombre === "menique") dedoNombre = "menique";
 
   if (!buffer.hasOwnProperty(dedoNombre)) return;
 
   buffer[dedoNombre] = valor;
+
 
   const completo =
     buffer.indice !== null &&
@@ -212,7 +211,7 @@ parser.on("data", (linea) => {
 
   console.log("Dedo con mayor valor:", dedoFlexionado, "=", maxValor);
 
-  const UMBRAL = 50;
+  const UMBRAL =40;
   if (maxValor <= UMBRAL) {
     console.log("Ningún dedo supera el umbral, no mando nada");
     resetBuffer();

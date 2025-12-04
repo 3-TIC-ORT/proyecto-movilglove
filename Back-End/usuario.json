@@ -42,5 +42,13 @@
   {
     "usuario": "hopper",
     "contraseña": "pepe"
+  },
+  {
+    "usuario": "buenas",
+    "contraseña": "hola123"
+  },
+  {
+    "usuario": "maxi",
+    "contraseña": "lore"
   }
 ]
