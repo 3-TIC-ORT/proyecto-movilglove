@@ -47,8 +47,8 @@ body {
   background-color: #002750;
   width: 450px;
   padding: 14px 15px;
-  margin: 45px auto; /* centrado horizontal */
-  display: block;    /* necesario para margin auto */
+  margin: 45px auto; 
+  display: block;   
   border: 4px solid #ffffff;
   border-radius: 6px;
   color: #ffffff;
@@ -60,7 +60,6 @@ body {
   color: #ffffff;
 }
 
-/* Para el input de contraseña */
 
 
 #contrasena {

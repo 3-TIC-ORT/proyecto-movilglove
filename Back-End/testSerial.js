@@ -7,7 +7,7 @@ const parser = puerto.pipe(new ReadlineParser({ delimiter: "\r\n" }));
 puerto.on("open", () => {
   console.log("Puerto serie abierto en COM6");
 
-  // Cada 2 segundos le mando un mensaje al Arduino
+ 
   setInterval(() => {
     puerto.write("hola arduino\n", (err) => {
       if (err) {
