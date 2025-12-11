@@ -11,11 +11,3 @@ Paso 3: Conectar los puertos IN de la siguiente manera:
 Paso 4: Conectar el puerta ENA al pin9 y el ENB AL PIN10
 
 Paso 5: conectar la GND del arduino (logica), la GND del puente h (eléctrica) y la gnd de la fuente todo en la linea negativa de la protoboard para unificarlo.
-
-Paso 6: Conectar los botones en la protoboard y la pata negativa hacer la siguiente conexión:
-        -Boton1: pin8
-        -Boton2: pin12
-        -Boton3: pin11
-        -Boton4: pin13
-
-Paso 7: conectar la patita GND de los botones al negativo de la protoboard.

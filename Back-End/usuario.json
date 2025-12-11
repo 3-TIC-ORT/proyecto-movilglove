@@ -50,5 +50,9 @@
   {
     "usuario": "maxi",
     "contraseña": "lore"
+  },
+  {
+    "usuario": "maxiHardware",
+    "contraseña": "Daro"
   }
 ]

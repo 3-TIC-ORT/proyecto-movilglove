@@ -79,5 +79,14 @@
       "anular": "Izquierda",
       "menique": "Retroceder"
     }
+  },
+  {
+    "usuario": "maxiHardware",
+    "movimientos": {
+      "indice": "Izquierda",
+      "medio": "Avanzar",
+      "anular": "Derecha",
+      "menique": "Retroceder"
+    }
   }
 ]

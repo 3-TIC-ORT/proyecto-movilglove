@@ -89,10 +89,10 @@ subscribePOSTEvent("guardarConfiguracion", (data) => {
   return { success: true, msg: "Configuración guardada correctamente" };
 });
 
-const puerto = new SerialPort({ path: "COM6", baudRate: 9600 });
+const puerto = new SerialPort({ path: "COM5", baudRate: 9600 });
 
 puerto.on("open", () => {
-  console.log("Puerto serie abierto en COM6");
+  console.log("Puerto serie abierto en COM5");
 });
 
 puerto.on("error", (err) => {

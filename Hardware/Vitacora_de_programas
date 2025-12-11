@@ -161,7 +161,7 @@ String orden = "";
  //en porcentaje
 
 int conversor1 (int Valor) {
-   respuesta = map(Valor, 470, 950, 0, 100);
+   respuesta = map(Valor, 400, 950, 0, 100);
   
   if (respuesta < 0) {
     respuesta = 0;
@@ -176,7 +176,7 @@ int conversor1 (int Valor) {
 }
 
 int conversor2 (int Valor) {
-   respuesta = map(Valor, 470, 950, 0, 100);
+   respuesta = map(Valor, 400, 950, 0, 100);
   
   if (respuesta < 0) {
     respuesta = 0;
@@ -191,7 +191,7 @@ int conversor2 (int Valor) {
 }
 
 int conversor3 (int Valor) {
-   respuesta = map(Valor, 470, 950, 0, 100);
+   respuesta = map(Valor, 400, 950, 0, 100);
   
   if (respuesta < 0) {
     respuesta = 0;
@@ -206,7 +206,7 @@ int conversor3 (int Valor) {
 }
 
 int conversor4 (int Valor) {
-   respuesta = map(Valor, 470, 950, 0, 100);
+   respuesta = map(Valor, 400, 950, 0, 100);
 
   if (respuesta < 0) {
     respuesta = 0;
@@ -373,7 +373,7 @@ String orden = "";
  //en porcentaje
 
 int conversor1 (int Valor) {
-   respuesta = map(Valor, 470, 950, 0, 100);
+   respuesta = map(Valor, 400, 950, 0, 100);
   
   if (respuesta < 0) {
     respuesta = 0;
@@ -388,7 +388,7 @@ int conversor1 (int Valor) {
 }
 
 int conversor2 (int Valor) {
-   respuesta = map(Valor, 470, 950, 0, 100);
+   respuesta = map(Valor, 400, 950, 0, 100);
   
   if (respuesta < 0) {
     respuesta = 0;
@@ -403,7 +403,7 @@ int conversor2 (int Valor) {
 }
 
 int conversor3 (int Valor) {
-   respuesta = map(Valor, 470, 950, 0, 100);
+   respuesta = map(Valor, 400, 950, 0, 100);
   
   if (respuesta < 0) {
     respuesta = 0;
@@ -418,7 +418,7 @@ int conversor3 (int Valor) {
 }
 
 int conversor4 (int Valor) {
-   respuesta = map(Valor, 470, 950, 0, 100);
+   respuesta = map(Valor, 400, 950, 0, 100);
 
   if (respuesta < 0) {
     respuesta = 0;
