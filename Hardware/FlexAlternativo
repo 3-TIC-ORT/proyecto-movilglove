@@ -1,0 +1,46 @@
+//Pines de los sensores flex
+#define sensor0 = A0;			
+#define sensor1 = A1;
+#define sensor2 = A2;
+#define sensor3 = A3;
+
+// Valores del circuito
+//¡ESTAN EN PLACEHOLDER! medir y cambiar
+#define VCC = 5;			        // voltage del arduinoo
+#define ResistDivisor = 47000.0;	// resistencia fija
+#define resistorPlano = 25000.0;	// Resistencia sensor en 180°
+#define resistor90 = 100000.0;	    // resistencia sensor en 90° 
+
+void setup() {
+	Serial.begin(9600);
+	pinMode (sensor0, INPUT);
+    pinMode (sensor1, INPUT);
+    pinMode (sensor2, INPUT);
+    pinMode (sensor3, INPUT);
+}
+
+//Función que calcula los valores del sensor en todo momento respecto a la entrada de ADC
+int lector (int sensor, int dedo) {
+
+    // Primero se calcula la ressistencia que esta ofreciendo en este momento y su voltaje
+	int ADCsensor = analogRead (sensor);
+	float Vsensor = ADCsensor * VCC / 1023.0; //cálculo de Vsalida
+    float ResistSensor = ResistDivisor * (VCC / Vsensor - 1.0); //Resistencia
+    Serial.println (sensor + ":")
+	Serial.println("    Resistencia: " + String(ResistSensor) + " ohms");
+
+	// usar estos parámetros para calcular el ángulo:
+	float angulo = map(ResistSensor, resistorPlano, resistor90, 0, 90.0);
+    float valor = map(angulo, 0, 90.0, 0, 100.0) //se pasa de 0 a 100 para que el back lo entienda
+	Serial.println("    dedo " + String(dedo) + ":" + String(valor));
+    return angulo
+}
+
+
+void loop() {   
+    lector (sensor0, meñique);
+    lector (sensor1, anular);
+    lector (sensor2, mayor);
+    lector (sensor3, indice);
+ delay(300);
+}
