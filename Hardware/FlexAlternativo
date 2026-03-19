@@ -8,9 +8,9 @@
 // Valores del circuito
 //¡ESTAN EN PLACEHOLDER! medir y cambiar
 #define VCC  5			        // voltage del arduinoo
-#define ResistDivisor  47000.0	// resistencia fija
-#define resistorPlano  25000.0	// Resistencia sensor en 180°
-#define resistor90  100000.0	    // resistencia sensor en 90° 
+#define ResistDivisor  1	// resistencia fija
+#define resistorPlano  1	// Resistencia sensor en 180°
+#define resistor90  10000.0	    // resistencia sensor en 90° 
 
 void setup() {
 	Serial.begin(9600);
@@ -21,25 +21,38 @@ void setup() {
 }
 
 //Función que calcula los valores del sensor en todo momento respecto a la entrada de ADC
-int lector (int sensor, int dedo) {
+int lector (int sensor, String dedo) {
 
     // Primero se calcula la ressistencia que esta ofreciendo en este momento y su voltaje
-	int ADCsensor = analogRead (sensor);
+	float ADCsensor = 0;
+    float ADCsensorS = 0;
+    
+    // Se promedian 10 lecturas para eliminar ruido 
+    for (int i = 0; i < 10; i++) {
+        ADCsensorS += analogRead(sensor);
+        delayMicroseconds(100);
+    }
+    ADCsensor = ADCsensorS/10;
+
 	float Vsensor = ADCsensor * VCC / 1023.0; //cálculo de Vsalida
+    if (Vsensor == 0) return 0; //para que no se siga corriendo el código si adc mide 0
     float ResistSensor = ResistDivisor * (VCC / Vsensor - 1.0); //Resistencia
     Serial.print (sensor);
     Serial.println (":");
 	Serial.print("    Resistencia: ");
-    Serial.print(String(ResistSensor));
+    Serial.print(ResistSensor);
     Serial.println(" ohms");
 
 	// usar estos parámetros para calcular el ángulo:
-	float angulo = map(ResistSensor, resistorPlano, resistor90, 0, 90.0);
-    float valor = map(angulo, 0, 90.0, 0, 100.0); //se pasa de 0 a 100 para que el back lo entienda
+	float angulo = (ResistSensor - resistorPlano) * 90.0 / (resistor90 - resistorPlano);
+    float valor = angulo * 100.0 / 90.0; //se pasa de 0 a 100 para que el back lo entienda
+    valor = constrain(valor, 0.0, 100.0);
+
 	Serial.print("    dedo ");
-    Serial.print (String(dedo));
+    Serial.print (dedo);
     Serial.print (":");
-    Serial.println (String(valor));
+    Serial.println (valor);
+    
     return valor;
 }
 
