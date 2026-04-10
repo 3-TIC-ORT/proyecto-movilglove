@@ -3,7 +3,7 @@
 #define dedo2 A2
 #define dedo3 A3
 
-int lector(Puerto, dedo) {
+int lector(int Puerto, const char* dedo) {
     int lectura = 0;
     int lectruaS = 0;
     for (int i = 0; i < 5; i++) {
