@@ -10,15 +10,20 @@
 #define ENA 9
 #define ENB 10
 
-int prenderMotor (int pin){
-    if (pin == 3 || pin == 4) {
-        analogWrite(ENA , velocidad);
-        digitalWrite(pin, HIGH);
-        Serial.print("Activando el pin ");
-        Serial.println(pin);
+int lecturaS = 0;
+
+int prenderMotor (int pin)
+{
+    if (pin == 3 || pin == 4) 
+    {
+      analogWrite(ENA , velocidad);
+      digitalWrite(pin, HIGH);
+      Serial.print("Activando el pin ");
+      Serial.println(pin);
     } 
 
-    if (pin == 5 || pin == 6) {
+    if (pin == 5 || pin == 6) 
+    {
         analogWrite(ENB, velocidad);
         digitalWrite(pin, HIGH);
         Serial.print("Activando el pin ");
@@ -27,35 +32,30 @@ int prenderMotor (int pin){
 
 }
 
-int apagarMotor (int pin){
-    if (pin == 3 || pin == 4) {
+int apagarMotor (int pin)
+{
+    if (pin == 3 || pin == 4) 
+    {
         analogWrite(ENA, 0);
 
     }
     
 
-    if(pin == 5 || pin == 6) {
+    if(pin == 5 || pin == 6) 
+    {
         analogWrite(ENB, 0);
     }
 }
 
-int lector(int Puerto, const char* dedo) {
-    int lectura = 0;
-    int lectruaS = 0;
-    for (int i = 0; i < 5; i++) {
-        lecturaS += analogRead(Puerto);
-        delayMicroseconds(100);
-    }
-    lectura = lecturaS/5;
-
-
-    int out = map(lectura, 0, 1023, 0, 100);
-    Serial.print(dedo);
-    Serial.print(":");
-    Serial.println(out);
+int lector(int Puerto, const char* dedo)
+{
+  Serial.print(dedo);
+  Serial.print(":");
+  Serial.println(map(analogRead(Puerto), 0, 1023, 0, 100));
 }
 
-void setup() {
+void setup() 
+{
  Serial.begin(9600);
  pinMode(3, OUTPUT); 
  pinMode(4,OUTPUT); 
@@ -66,7 +66,8 @@ void setup() {
  pinMode(10,OUTPUT);
 }
 
-void loop() {
+void loop() 
+{
     //Detección de dedos
     lector(dedo0, "indice");
     lector(dedo1, "mayor");
@@ -74,7 +75,7 @@ void loop() {
     lector(dedo3, "meñique");
 
     //Movimiento del auto
-    string orden = Serial.readString();
+    String orden = Serial.readString();
 
     if(orden == "Adelante"){
         prenderMotor(3);
