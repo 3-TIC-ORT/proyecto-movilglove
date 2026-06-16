@@ -51,7 +51,7 @@ int lector(int Puerto, const char* dedo)
 {
   Serial.print(dedo);
   Serial.print(":");
-  Serial.println(map(analogRead(Puerto), 0, 1023, 0, 100));
+  Serial.println(map(analogRead(Puerto), 5, 500, 0, 100));//Una vez montado en el guante, el máximo que registra un potenciometro es alrededor de 500, no llega a los 230 grados completo 
 }
 
 void setup() 
