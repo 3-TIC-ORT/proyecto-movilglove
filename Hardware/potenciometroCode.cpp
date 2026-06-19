@@ -14,40 +14,40 @@ int lecturaS = 0;
 
 int prenderMotor (int pin)
 {
-    if (pin == 3 || pin == 4) 
-    {
-      analogWrite(ENA , velocidad);
-      digitalWrite(pin, HIGH);
-      Serial.print("Activando el pin ");
-      Serial.println(pin);
-    } 
+ if (pin == 3 || pin == 4) 
+ {
+  analogWrite(ENA , velocidad);
+  digitalWrite(pin, HIGH);
+  Serial.print("Activando el pin ");
+  Serial.println(pin);
+ } 
 
-    if (pin == 5 || pin == 6) 
-    {
-        analogWrite(ENB, velocidad);
-        digitalWrite(pin, HIGH);
-        Serial.print("Activando el pin ");
-        Serial.println(pin);
-    }
+ if (pin == 5 || pin == 6) 
+ {
+  analogWrite(ENB, velocidad);
+  digitalWrite(pin, HIGH);
+  Serial.print("Activando el pin ");
+  Serial.println(pin);
+ }
 
 }
 
 int apagarMotor (int pin)
 {
-    if (pin == 3 || pin == 4) 
-    {
-    analogWrite(ENA, 0);
-    digitalWrite(in1, LOW);
-    digitalWrite(in2, LOW);
-    }
+ if (pin == 3 || pin == 4) 
+ {
+  analogWrite(ENA, 0);
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, LOW);
+ }
     
 
-    if(pin == 5 || pin == 6) 
-    {
-    analogWrite(ENB, 0);
-    digitalWrite(in3, LOW);
-    digitalWrite(in4, LOW);
-    }
+ if(pin == 5 || pin == 6) 
+ {
+  analogWrite(ENB, 0);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, LOW);
+ }
 }
 
 int lector(int Puerto, const char* dedo)
@@ -58,12 +58,12 @@ int lector(int Puerto, const char* dedo)
 }
 void limpiarOut() 
 {
-    analogWrite(ENA, 0);
-    analogWrite(ENB, 0);
-    digitalWrite(in1, LOW);
-    digitalWrite(in2, LOW);
-    digitalWrite(in3, LOW);
-    digitalWrite(in4, LOW);
+ analogWrite(ENA, 0);
+ analogWrite(ENB, 0);
+ digitalWrite(in1, LOW);
+ digitalWrite(in2, LOW);
+ digitalWrite(in3, LOW);
+ digitalWrite(in4, LOW);
 }
 
 void setup() 
@@ -88,25 +88,28 @@ void loop()
     //Movimiento del auto
     limpiarOut();
     String orden = Serial.readStringUntil('\n');
-    if(orden == "Adelante"){
-        limpiarOut();
-        prenderMotor(3);
-        prenderMotor(5);
+
+ if(orden == "Adelante"){
+    limpiarOut();
+    prenderMotor(3);
+    prenderMotor(5);
     }
-    if(orden == "Atras"){
-        limpiarOut();
-        prenderMotor(4);
-        prenderMotor(6);
+
+ if(orden == "Atras"){
+    limpiarOut();
+    prenderMotor(4);
+    prenderMotor(6);
     }
-    if(orden == "Izquierda"){
-        limpiarOut();
-        apagarMotor(3);
-        prenderMotor(5);
+
+ if(orden == "Izquierda"){
+    limpiarOut();
+    apagarMotor(3);
+    prenderMotor(5);
     }
-    if(orden == "Derecha"){
-        limpiarOut();
-        prenderMotor(3);
-        apagarMotor(5);
+
+ if(orden == "Derecha"){
+    limpiarOut();
+    prenderMotor(3);
+    apagarMotor(5);
     }
-    delay(200);
 }
