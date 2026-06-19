@@ -36,14 +36,17 @@ int apagarMotor (int pin)
 {
     if (pin == 3 || pin == 4) 
     {
-        analogWrite(ENA, 0);
-
+    analogWrite(ENA, 0);
+    digitalWrite(in1, LOW);
+    digitalWrite(in2, LOW);
     }
     
 
     if(pin == 5 || pin == 6) 
     {
-        analogWrite(ENB, 0);
+    analogWrite(ENB, 0);
+    digitalWrite(in3, LOW);
+    digitalWrite(in4, LOW);
     }
 }
 
@@ -52,6 +55,15 @@ int lector(int Puerto, const char* dedo)
   Serial.print(dedo);
   Serial.print(":");
   Serial.println(map(analogRead(Puerto), 5, 500, 0, 100));//Una vez montado en el guante, el máximo que registra un potenciometro es alrededor de 500, no llega a los 230 grados completo 
+}
+void limpiarOut() 
+{
+    analogWrite(ENA, 0);
+    analogWrite(ENB, 0);
+    digitalWrite(in1, LOW);
+    digitalWrite(in2, LOW);
+    digitalWrite(in3, LOW);
+    digitalWrite(in4, LOW);
 }
 
 void setup() 
@@ -62,7 +74,6 @@ void setup()
  pinMode(9,OUTPUT);
  pinMode(5,OUTPUT); 
  pinMode(6,OUTPUT); 
- pinMode(9,OUTPUT);
  pinMode(10,OUTPUT);
 }
 
@@ -75,21 +86,25 @@ void loop()
     lector(dedo3, "meñique");
 
     //Movimiento del auto
-    String orden = Serial.readString();
-
+    limpiarOut();
+    String orden = Serial.readStringUntil('\n');
     if(orden == "Adelante"){
+        limpiarOut();
         prenderMotor(3);
         prenderMotor(5);
     }
     if(orden == "Atras"){
+        limpiarOut();
         prenderMotor(4);
         prenderMotor(6);
     }
     if(orden == "Izquierda"){
+        limpiarOut();
         apagarMotor(3);
         prenderMotor(5);
     }
     if(orden == "Derecha"){
+        limpiarOut();
         prenderMotor(3);
         apagarMotor(5);
     }
