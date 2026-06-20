@@ -12,12 +12,18 @@
 
 int lecturaS = 0;
 
-int prenderMotor (int pin)
+//Este contador se usa para frenar el auto si no llega ninguna orden de la computadora durante 200ms
+unsigned long ultimaOrden = 0;
+const unsigned long timeout_freno = 100;
+
+// Siempre llamar limpiarOut() antes de prenderMotor()
+// para garantizar que el pin complementario esté en LOW
+void prenderMotor (int pin)
 {
  if (pin == 3 || pin == 4) 
  {
   analogWrite(ENA , velocidad);
-  digitalWrite(pin, HIGH);
+  digitalWrite(3, HIGH);
   Serial.print("Activando el pin ");
   Serial.println(pin);
  } 
@@ -32,7 +38,7 @@ int prenderMotor (int pin)
 
 }
 
-int apagarMotor (int pin)
+void apagarMotor (int pin)
 {
  if (pin == 3 || pin == 4) 
  {
@@ -50,11 +56,11 @@ int apagarMotor (int pin)
  }
 }
 
-int lector(int Puerto, const char* dedo)
+void lector(int Puerto, const char* dedo)
 {
   Serial.print(dedo);
   Serial.print(":");
-  Serial.println(map(analogRead(Puerto), 5, 500, 0, 100));//Una vez montado en el guante, el máximo que registra un potenciometro es alrededor de 500, no llega a los 230 grados completo 
+  Serial.println(map(analogRead(Puerto), 4, 500, 0, 100));//Una vez montado en el guante, el máximo que registra un potenciometro es alrededor de 500, no llega a los 230 grados completo 
 }
 void limpiarOut() 
 {
@@ -69,6 +75,7 @@ void limpiarOut()
 void setup() 
 {
  Serial.begin(9600);
+ Serial.setTimeout(10);
  pinMode(3, OUTPUT); 
  pinMode(4,OUTPUT); 
  pinMode(9,OUTPUT);
@@ -79,37 +86,45 @@ void setup()
 
 void loop() 
 {
-    //Detección de dedos
-    lector(dedo0, "indice");
-    lector(dedo1, "mayor");
-    lector(dedo2, "anular");
-    lector(dedo3, "meñique");
+   //Detección de dedos
+   lector(dedo0, "indice");
+   lector(dedo1, "mayor");
+   lector(dedo2, "anular");
+   lector(dedo3, "meñique");
+   //Movimiento del auto
+ if(Serial.available() > 0){
+   String orden = Serial.readStringUntil('\n');
 
-    //Movimiento del auto
+   if(orden == "Adelante"){
+    Serial.println("Orden adelante recibida");
     limpiarOut();
-    String orden = Serial.readStringUntil('\n');
+    prenderMotor(in1);
+    prenderMotor(in3);
+   }
 
- if(orden == "Adelante"){
+   if(orden == "Atras"){
+   Serial.println("Orden atras recibida");
     limpiarOut();
-    prenderMotor(3);
-    prenderMotor(5);
-    }
+    prenderMotor(in2);
+    prenderMotor(in4);
+   }
 
- if(orden == "Atras"){
+   if(orden == "Izquierda"){
+   Serial.println("Orden izquierda recibida");
     limpiarOut();
-    prenderMotor(4);
-    prenderMotor(6);
-    }
+    apagarMotor(in1);
+    prenderMotor(in3);
+   }
 
- if(orden == "Izquierda"){
+   if(orden == "Derecha"){
+    Serial.println("Orden derecha recibida");
     limpiarOut();
-    apagarMotor(3);
-    prenderMotor(5);
-    }
-
- if(orden == "Derecha"){
+    prenderMotor(in1);
+    apagarMotor(in3);
+   }
+   ultimaOrden = millis();
+ }
+ if (millis() - ultimaOrden > timeout_freno) {
     limpiarOut();
-    prenderMotor(3);
-    apagarMotor(5);
-    }
+  }
 }

@@ -211,7 +211,7 @@ parser.on("data", (linea) => {
 
   console.log("Dedo con mayor valor:", dedoFlexionado, "=", maxValor);
 
-  const UMBRAL =60;
+  const UMBRAL =50;
   if (maxValor <= UMBRAL) {
     console.log("Ningún dedo supera el umbral, no mando nada");
     resetBuffer();
