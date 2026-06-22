@@ -20,10 +20,10 @@ const unsigned long timeout_freno = 100;
 // para garantizar que el pin complementario esté en LOW
 void prenderMotor (int pin)
 {
- if (pin == 3 || pin == 4) 
+ if (pin == in1 || pin == in2) 
  {
   analogWrite(ENA , velocidad);
-  digitalWrite(3, HIGH);
+  digitalWrite(pin, HIGH);
   Serial.print("Activando el pin ");
   Serial.println(pin);
  } 
@@ -105,7 +105,7 @@ void loop()
    if(orden == "Atras"){
    Serial.println("Orden atras recibida");
     limpiarOut();
-    prenderMotor(in2);
+    prenderMotor(in1);
     prenderMotor(in4);
    }
 

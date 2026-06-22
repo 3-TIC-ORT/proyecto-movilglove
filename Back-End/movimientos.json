@@ -88,5 +88,14 @@
       "anular": "Derecha",
       "menique": "Retroceder"
     }
+  },
+  {
+    "usuario": "Máximo",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Derecha",
+      "menique": "Izquierda"
+    }
   }
 ]
