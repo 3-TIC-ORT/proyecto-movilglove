@@ -92,6 +92,312 @@
   {
     "usuario": "Máximo",
     "movimientos": {
+      "indice": "Derecha",
+      "medio": "Retroceder",
+      "anular": "Avanzar",
+      "menique": "Izquierda"
+    }
+  },
+  {
+    "usuario": "rampon",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Izquierda",
+      "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "chiara",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Izquierda",
+      "anular": "Derecha",
+      "menique": "Retroceder"
+    }
+  },
+  {
+    "usuario": "Roman",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Izquierda",
+      "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "caro",
+    "movimientos": {
+      "indice": "Izquierda",
+      "medio": "Avanzar",
+      "anular": "Retroceder",
+      "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "Carme",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Derecha",
+      "menique": "Izquierda"
+    }
+  },
+  {
+    "usuario": "Delfi",
+    "movimientos": {
+      "indice": "Retroceder",
+      "medio": "Avanzar",
+      "anular": "Izquierda",
+      "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "Lucas",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Izquierda",
+      "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "aaaa",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Izquierda",
+      "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "Ana",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Derecha",
+      "menique": "Izquierda"
+    }
+  },
+  {
+    "usuario": "davooo",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Derecha",
+      "menique": "Izquierda"
+    }
+  },
+  {
+    "usuario": "Rosales",
+    "movimientos": {
+      "indice": "Izquierda",
+      "medio": "Avanzar",
+      "anular": "Retroceder",
+      "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "benipro",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Izquierda",
+      "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "Nico Jersonsky",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Izquierda",
+      "anular": "Derecha",
+      "menique": "Retroceder"
+    }
+  },
+  {
+    "usuario": "meli",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Izquierda",
+      "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "cap",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Izquierda",
+      "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "agustina",
+    "movimientos": {
+      "indice": "Derecha",
+      "medio": "Avanzar",
+      "anular": "Retroceder",
+      "menique": "Izquierda"
+    }
+  },
+  {
+    "usuario": "lucho",
+    "movimientos": {
+      "indice": "Derecha",
+      "medio": "Avanzar",
+      "anular": "Retroceder",
+      "menique": "Izquierda"
+    }
+  },
+  {
+    "usuario": "ghim",
+    "movimientos": {
+      "indice": "Derecha",
+      "medio": "Avanzar",
+      "anular": "Retroceder",
+      "menique": "Izquierda"
+    }
+  },
+  {
+    "usuario": "dhjk",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Izquierda",
+      "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "gjtut",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Izquierda",
+      "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "LC",
+    "movimientos": {
+      "indice": "Izquierda",
+      "medio": "Avanzar",
+      "anular": "Derecha",
+      "menique": "Retroceder"
+    }
+  },
+  {
+    "usuario": "PABLITOYPABLITA123",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Izquierda",
+      "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "HUHU9",
+    "movimientos": {
+      "indice": "Izquierda",
+      "medio": "Avanzar",
+      "anular": "Retroceder",
+      "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "Nico",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Derecha",
+      "menique": "Izquierda"
+    }
+  },
+  {
+    "usuario": "wolko",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Izquierda",
+      "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "guido",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Izquierda",
+      "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "dante",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Izquierda",
+      "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "Juan",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Derecha",
+      "menique": "Izquierda"
+    }
+  },
+  {
+    "usuario": "leon",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Izquierda",
+      "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "tuglkn",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Izquierda",
+      "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "Perritosofi123",
+    "movimientos": {
+      "indice": "Derecha",
+      "medio": "Avanzar",
+      "anular": "Retroceder",
+      "menique": "Izquierda"
+    }
+  },
+  {
+    "usuario": "carme",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Izquierda",
+      "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "marina67",
+    "movimientos": {
+      "indice": "Avanzar",
+      "medio": "Retroceder",
+      "anular": "Izquierda",
+      "menique": "Derecha"
+    }
+  },
+  {
+    "usuario": "maxigenio",
+    "movimientos": {
       "indice": "Avanzar",
       "medio": "Retroceder",
       "anular": "Derecha",
